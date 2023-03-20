@@ -4,8 +4,10 @@ from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from twilio.rest import Client
 import random
+from datetime import datetime,date
+
 from django.shortcuts import get_object_or_404
-from myapp.models import Myuser,Accountrequest,Account,News,Loan,Customerloan
+from myapp.models import Myuser,Accountrequest,Account,News,Loan,Customerloan,Kyc,Chit,Customerchit
 from django.contrib.auth import authenticate, logout, login
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
@@ -297,11 +299,17 @@ def accountlink(request):
         # print(accno)
         obj=Account.objects.filter(id=accno)
         # print(obj)
+
         if obj:
             myobj=Account.objects.filter( id=accno).order_by('-id').last()
             account_requestid=myobj.accrid.id
             Accobj=Accountrequest.objects.filter(id=account_requestid).order_by('-id').last()
             account_requestuid = Accobj.uid.id
+            if Accountrequest.objects.get(id=account_requestid).status=="added":
+                data = {'status': 'failure'}
+                status_code = 401
+                return JsonResponse(data, status=status_code)
+
             print(account_requestuid)
             phone=Myuser.objects.get(id=account_requestuid).phone
             print(phone)
@@ -310,22 +318,22 @@ def accountlink(request):
             print(myobj.accrid.id)
             request.session['account_request_id']=myobj.accrid.id
             print(random_number)
-            mob = '+91' + str(phone)
-            smsmsg ="Your OTP for verification is : "+ str(random_number)
-            account_sid = 'AC8bb9a55c8e2e83a3aec7a1af351d600b'
-            auth_token = '6543e661182f0c1f5fccf34e70449896'
-            client = Client(account_sid, auth_token)
-            try:
-                message = client.messages.create(
-
-                    body=smsmsg,
-                    from_='+16829002201',
-                    to=mob
-
-                )
-            except:
-                data = {'status': 'failure'}
-                status_code = 403
+            # mob = '+91' + str(phone)
+            # smsmsg ="Your OTP for verification is : "+ str(random_number)
+            # account_sid = 'AC8bb9a55c8e2e83a3aec7a1af351d600b'
+            # auth_token = '6543e661182f0c1f5fccf34e70449896'
+            # client = Client(account_sid, auth_token)
+            # try:
+            #     message = client.messages.create(
+            #
+            #         body=smsmsg,
+            #         from_='+16829002201',
+            #         to=mob
+            #
+            #     )
+            # except:
+            #     data = {'status': 'failure'}
+            #     status_code = 403
 
 
             data = {'status': 'success','otp':random_number,'account_requestid':myobj.accrid.id}
@@ -397,17 +405,25 @@ def getinfoforinitialize(request):
                 reqid = Accountrequest.objects.get(uid_id=user_id).id
                 accholdername = Accountrequest.objects.get(uid_id=user_id).fname
                 acctype = Accountrequest.objects.get(uid_id=user_id).type
+                phone = Myuser.objects.get(id=user_id).phone
+                mail = Myuser.objects.get(id=user_id).email
                 accno = Account.objects.get(accrid_id=reqid).id
                 print(accholdername, acctype, accno)
-                data = {'status': 'success', 'accno': accno, 'accholdername': accholdername, 'acctype': acctype}
+                data = {'status': 'success', 'accno': accno, 'accholdername': accholdername, 'acctype': acctype,'phone':phone,'mail':mail}
                 status_code = 200
             else:
-                data = {'status': 'failure'}
-                status_code = 204
+                phone = Myuser.objects.get(id=user_id).phone
+                mail = Myuser.objects.get(id=user_id).email
+                data = {
+                    'phone': phone, 'mail': mail}
+
+                status_code = 400
+
 
         else:
             data = {'status': 'failure'}
             status_code = 204
+
         return JsonResponse(data, status=status_code)
 
 
@@ -603,3 +619,144 @@ def getappliedloan(request):
         serialized_data = loan_list
         print(serialized_data)  # convert queryset to list of dictionaries
         return JsonResponse(serialized_data, safe=False, status=200)
+
+
+
+
+@csrf_exempt
+def kycupload(request):
+    if request.method == 'POST':
+        accno = request.headers.get('accno')
+        doc_file = request.FILES.get('doc')
+        doc_file2 = request.FILES.get('doc2')
+        print(accno,doc_file,doc_file2)
+        # obj=Kyc.objects.get(account_number_id=int(accno))
+        # print(obj)
+        if Kyc.objects.filter(account_number_id=int(accno)).exists():
+            data = {'status': 'failure'}
+            status_code = 204
+            return JsonResponse(data, status=status_code)
+        kyc=Kyc()
+        kyc.account_number_id=int(accno)
+        kyc.form=doc_file
+        kyc.proof=doc_file2
+        kyc.save()
+        data = {'status': 'success'}
+        status_code = 200
+        return JsonResponse(data, status=status_code)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+
+@csrf_exempt
+def getchits(request):
+    if request.method == 'POST':
+        current_date = date.today()
+        chits=Chit.objects.filter(due_date__gte=current_date).order_by('-id')
+        serialized_data = list(chits.values())
+        print(serialized_data)  # convert queryset to list of dictionaries
+        return JsonResponse(serialized_data, safe=False, status=200)
+
+
+
+@csrf_exempt
+def getchitalnumbers(request):
+    if request.method == 'POST':
+        currentlist=[]
+        chitid = request.POST.get('chitid')
+        # print(chitid)
+        chitperiod=Chit.objects.get(id=chitid).period
+        # print(chitperiod)
+        numbers = list(range(1, chitperiod+1))
+        custchit=Customerchit.objects.filter(chitid_id=chitid)
+        # print(custchit)
+        for x in custchit:
+            currentlist.append(x.chittal_number)
+        # print("not available",currentlist)
+        available_list = list(filter(lambda x: x not in currentlist, numbers))
+        if len(available_list)==0:
+            data = {'status': 'failure'}
+            status_code = 400
+            return JsonResponse(data, status=status_code)
+        # print("available",available_list)
+        # print("all",numbers)
+        my_dict_list = [{"available_id": i+1} for i, x in enumerate(available_list)]
+        print(my_dict_list)
+        return JsonResponse(available_list, safe=False, status=200)
+        # data = {'status': 'success'}
+        # status_code = 200
+        # return JsonResponse(data, status=status_code)
+
+
+
+@csrf_exempt
+def sendchitrequest(request):
+    if request.method == 'POST':
+        chitid = request.POST.get('chitid')
+        chittalnumber = request.POST.get('chitalnumber')
+        accno = request.POST.get('accno')
+        print(chitid,chittalnumber,accno)
+        chk = Customerchit.objects.filter(account_number_id=accno, chitid_id=chitid).first()
+        # loan = get_object_or_404(Loan, account_number=accno, loanid=loanid)
+        if chk:
+            if chk.status == "pending":
+                data = {'status': 'failure'}
+                status_code = 204
+                return JsonResponse(data, status=status_code)
+        obj=Customerchit()
+        obj.chittal_number=int(chittalnumber)
+        obj.account_number_id=int(accno)
+        obj.chitid_id=chitid
+        obj.status="pending"
+        obj.current_payment_count=0
+        obj.save()
+        data = {'status': 'success'}
+        status_code = 200
+        return JsonResponse(data, status=status_code)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+
+
+@csrf_exempt
+def getappliedchits(request):
+    if request.method == 'POST':
+        print("****")
+        accno = request.POST.get('accno')
+        chits = Customerchit.objects.filter(account_number_id=accno)
+        chit_list_size = len(chits)
+        chit_list = [None] * chit_list_size
+        for i, x in enumerate(chits):
+            chit_dict = {
+                'chit_name': x.chitid.name,
+                'amount': x.chitid.chit_amount,
+                'period': x.chitid.period,
+                'status': x.status,
+                'start': x.chitid.start_date,
+                'end': x.chitid.end_date,
+                'paydue':x.chitid.pay_due_date,
+                'current_installment': x.current_payment_count,
+                'chittal_number':x.chittal_number
+            }
+            chit_list[i] = chit_dict
+        serialized_data = chit_list
+        print(serialized_data)  # convert queryset to list of dictionaries
+        return JsonResponse(serialized_data, safe=False, status=200)
+
+@csrf_exempt
+def getbalance(request):
+    if request.method == 'POST':
+        print("****")
+        accno = request.POST.get('accno')
+        print(accno)
+        data = {'balance': Account.objects.get(id=accno).balance}
+        status_code = 200
+        return JsonResponse(data, status=status_code)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+
+

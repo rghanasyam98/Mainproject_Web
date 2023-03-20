@@ -129,13 +129,23 @@
 {#                        </div>#}
 {#                      </div>#}
 
-                        <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Auction Date <span class="required">*</span>
+{#                        <div class="item form-group">#}
+{#                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Auction Date <span class="required">*</span>#}
+{#                        </label>#}
+{#                        <div class="col-md-6 col-sm-6 col-xs-12">#}
+{#                         <input type="text" name="adate" class="form-control has-feedback-left" id="single_cal4" placeholder="" aria-describedby="inputSuccess2Status4" required="required">#}
+{#                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>#}
+{#                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>#}
+{#                        </div>#}
+{#                      </div>#}
+                     <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Auction Date<span class="required"></span>
                         </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                         <input type="text" name="adate" class="form-control has-feedback-left" id="single_cal4" placeholder="" aria-describedby="inputSuccess2Status4" required="required">
-                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+{#                         <input type="date" name="startdate" min="2023-03-03"  required="required">#}
+                            <input type="date"  name="adate"   min="{{ today|date:'Y-m-d' }}"  required="required">
+{#                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>#}
+{#                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>#}
                         </div>
                       </div>
 
@@ -145,7 +155,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
 
                             <div class='input-group date' id='myDatepicker3'>
-                            <input type='text' class="form-control" name="atime"/>
+                            <input type='text' class="form-control" name="atime" required/>
 {#                                <div class="bootstrap-datetimepicker-widget dropdown-menu top pull-right" style="inset: auto 0px 34px auto;"></div>#}
                             <span class="input-group-addon">
                                <span class="glyphicon glyphicon-calendar"></span>

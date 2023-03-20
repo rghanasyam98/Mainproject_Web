@@ -18,6 +18,12 @@ urlpatterns = [
     path('getloans/', views.getloans, name='getloans'),
     path('loanrequest/', views.loanrequest, name='loanrequest'),
     path('getappliedloan/', views.getappliedloan, name='getappliedloan'),
+    path('kycupload/', views.kycupload, name='kycupload'),
+    path('getchits/', views.getchits, name='getchits'),
+    path('getchitalnumbers/', views.getchitalnumbers, name='getchitalnumbers'),
+    path('sendchitrequest/', views.sendchitrequest, name='sendchitrequest'),
+    path('getappliedchits/', views.getappliedchits, name='getappliedchits'),
+    path('getbalance/', views.getbalance, name='getbalance'),
 
     # ... other URL patterns ...
 ]

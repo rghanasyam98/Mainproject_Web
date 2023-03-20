@@ -1,3 +1,5 @@
+from calendar import monthrange
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -193,7 +195,9 @@ def chit_management(request):
 
 @login_required
 def addchit(request):
-    return render(request,'bankadmin/addchit.html')
+    today=date.today()
+    context={'today':today}
+    return render(request,'bankadmin/addchit.html',context)
 
 
 @login_required
@@ -207,16 +211,16 @@ def getchitfromform(request):
     # des = request.POST['des']
     pay_due = request.POST['paymentdue']
     print(chit_name,duration,tamount,start,end,join_due,pay_due)
-    sdate_obj = datetime.strptime(start, "%m/%d/%Y")
-    edate_obj = datetime.strptime(end, "%m/%d/%Y")
-    ddate_obj = datetime.strptime(join_due, "%m/%d/%Y")
-    print(sdate_obj.date())
+    # sdate_obj = datetime.strptime(start, "%m/%d/%Y")
+    # edate_obj = datetime.strptime(end, "%m/%d/%Y")
+    # ddate_obj = datetime.strptime(join_due, "%m/%d/%Y")
+    # print(sdate_obj.date())
     chitobj=Chit()
     chitobj.name=chit_name
     chitobj.chit_amount=tamount
-    chitobj.start_date=sdate_obj.date()
-    chitobj.end_date=edate_obj.date()
-    chitobj.due_date=ddate_obj.date()
+    chitobj.start_date=start
+    chitobj.end_date=end
+    chitobj.due_date=join_due
     chitobj.period=duration
     chitobj.pay_due_date=pay_due
     chitobj.status="Declared"
@@ -263,16 +267,16 @@ def getupdatedchitfromform(request):
     # des = request.POST['des']
     pay_due = request.POST['paymentdue']
     print(chit_name, duration, tamount, start, end, join_due, pay_due)
-    sdate_obj = datetime.strptime(start, "%m/%d/%Y")
-    edate_obj = datetime.strptime(end, "%m/%d/%Y")
-    ddate_obj = datetime.strptime(join_due, "%m/%d/%Y")
-    print(sdate_obj.date())
+    # sdate_obj = datetime.strptime(start, "%m/%d/%Y")
+    #     # edate_obj = datetime.strptime(end, "%m/%d/%Y")
+    #     # ddate_obj = datetime.strptime(join_due, "%m/%d/%Y")
+    # print(sdate_obj.date())
     chitobj = Chit.objects.get(id=cid)
     chitobj.name = chit_name
     chitobj.chit_amount = tamount
-    chitobj.start_date = sdate_obj.date()
-    chitobj.end_date = edate_obj.date()
-    chitobj.due_date = ddate_obj.date()
+    chitobj.start_date =start
+    chitobj.end_date =end
+    chitobj.due_date = join_due
     chitobj.period = duration
     chitobj.pay_due_date = pay_due
     # chitobj.status = "Declared"
@@ -384,7 +388,8 @@ def auction_management(request):
 @login_required
 def addauction(request):
     chit=Chit.objects.filter(status="ongoing")
-    context={'chit':chit}
+    today=date.today()
+    context={'chit':chit,'today':today}
     return render(request, 'bankadmin/add_auction.html',context)
 
 
@@ -398,22 +403,46 @@ def getauctionfromform(request):
     input_time = datetime.strptime(auction_time, '%I:%M %p')
     print( input_time.strftime('%H:%M'))
     output_time=input_time.strftime('%H:%M')
+    # start_date = auction_date.replace(day=1)
+    # # get the last day of the month by adding one month and subtracting one day
+    # end_date = start_date.replace(month=start_date.month + 1, day=1) - datetime.timedelta(days=1)
+    # print("********")
+    # print(start_date, end_date)
     # formatted_time = output_time.strftime('%I:%M %p')
     # print(formatted_time)
+    date_object = datetime.strptime(auction_date, '%Y-%m-%d').date()
+    print(date_object)
+    mymonth=date_object.month
+    myyear=date_object.year
+    print(mymonth,myyear)
+    days_in_month = monthrange(myyear, mymonth)[1]
 
-    date_obj = datetime.strptime(auction_date, "%m/%d/%Y")
+    # Get the first day of the month
+    first_day = date(myyear, mymonth, 1)
+
+    # Get the last day of the month
+    last_day = date(myyear, mymonth, days_in_month)
+    print(first_day,last_day)
+    # date_obj = datetime.strptime(auction_date, "%m/%d/%Y")
     # chitobj.start_date=sdate_obj.date()
+    results = Auction.objects.filter(chitid_id=chit_id,auction_date__gte=first_day, auction_date__lte=last_day)
+    if results:
+        print("true")
+        url = 'auction_management'
+        resp_body = '<script>alert("Auction for this month is already Added");\
+                                                                              window.location="%s"</script>' % url
+    else:
+        auction = Auction()
+        auction.chitid_id = chit_id
+        auction.auction_date = auction_date
+        # auction.auction_time=auction_time
+        auction.auction_time = output_time
 
-    auction=Auction()
-    auction.chitid_id=chit_id
-    auction.auction_date=date_obj.date()
-    # auction.auction_time=auction_time
-    auction.auction_time=output_time
+        auction.save()
+        url = 'auction_management'
+        resp_body = '<script>alert("Auction details successfully Added");\
+                                                                             window.location="%s"</script>' % url
 
-    auction.save()
-    url = 'auction_management'
-    resp_body = '<script>alert("Auction details successfully Added");\
-                                                                      window.location="%s"</script>' % url
     return HttpResponse(resp_body)
 
 
@@ -437,20 +466,26 @@ def update_auction(request,aid):
 
 @login_required
 def getupdatedauctionfromform(request):
+
     aid=request.session['auction_id']
     chit_id = request.POST['chitno']
     auction_date = request.POST['adate']
     auction_time = request.POST['atime']
-    print(chit_id, auction_date, auction_time)
-    date_obj = datetime.strptime(auction_date, "%m/%d/%Y")
 
+    print("hai",chit_id, auction_date, auction_time)
+    # date_obj = datetime.strptime(auction_date, "%m/%d/%Y")
+    start_date = auction_date.replace(day=1)
+    # get the last day of the month by adding one month and subtracting one day
+    end_date = start_date.replace(month=start_date.month + 1, day=1) - datetime.timedelta(days=1)
+    print("********")
+    print(start_date, end_date)
     input_time = datetime.strptime(auction_time, '%I:%M %p')
     print(input_time.strftime('%H:%M'))
     output_time = input_time.strftime('%H:%M')
 
     auction = Auction.objects.get(id=aid)
     auction.chitid_id = chit_id
-    auction.auction_date = date_obj.date()
+    auction.auction_date = auction_date
     auction.auction_time = output_time
     auction.save()
     url = 'auction_management'

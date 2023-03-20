@@ -102,47 +102,77 @@
                       </div>
 
 
+{#                         <div class="item form-group">#}
+{#                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Start Date <span class="required">*</span>#}
+{#                        </label>#}
+{#                        <div class="col-md-6 col-sm-6 col-xs-12">#}
+{#                         <input type="text" name="sdate" class="form-control has-feedback-left" id="single_cal4" placeholder="" aria-describedby="inputSuccess2Status4" required="required">#}
+{#                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>#}
+{#                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>#}
+{#                        </div>#}
+{#                      </div>#}
                          <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Start Date <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Start Date<span class="required"></span>
                         </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                         <input type="text" name="sdate" class="form-control has-feedback-left" id="single_cal4" placeholder="" aria-describedby="inputSuccess2Status4" required="required">
-                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+{#                         <input type="date" name="startdate" min="2023-03-03"  required="required">#}
+                            <input type="date"  name="sdate"   min="{{ today|date:'Y-m-d' }}"  required="required">
+{#                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>#}
+{#                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>#}
                         </div>
                       </div>
 
 
 
 
-                        <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">End Date <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+{#                        <div class="item form-group">#}
+{#                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">End Date <span class="required">*</span>#}
+{#                        </label>#}
+{#                        <div class="col-md-6 col-sm-6 col-xs-12">#}
 {#                           <fieldset>#}
 {#                          <div class="control-group">#}
 {#                            <div class="controls">#}
 {#                              <div class="col-md-11 xdisplay_inputx form-group has-feedback">#}
-                                <input type="text" name="edate" class="form-control has-feedback-left" id="single_cal3"  aria-describedby="inputSuccess2Status3" required="required">
-                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                <span id="inputSuccess2Status3" class="sr-only">(success)</span>
+{#                                <input type="text" name="edate" class="form-control has-feedback-left" id="single_cal5"  aria-describedby="inputSuccess2Status3" required="required">#}
+{#                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>#}
+{#                                <span id="inputSuccess2Status3" class="sr-only">(success)</span>#}
 {#                              </div>#}
 {#                            </div>#}
 {#                          </div>#}
 {#                        </fieldset>#}
-                        </div>
-                      </div>
-
+{#                        </div>#}
+{#                      </div>#}
                         <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Joining due Date <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">End Date<span class="required"></span>
                         </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" name="ddate" class="form-control has-feedback-left" id="single_cal2" placeholder="" aria-describedby="inputSuccess2Status2" required="required">
-                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                <span id="inputSuccess2Status2" class="sr-only">(success)</span>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+{#                         <input type="date" name="startdate" min="2023-03-03"  required="required">#}
+                            <input type="date"  name="edate"   min="{{ today|date:'Y-m-d' }}" required="required">
+{#                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>#}
+{#                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>#}
                         </div>
                       </div>
 
+{#                        <div class="item form-group">#}
+{#                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Joining due Date <span class="required">*</span>#}
+{#                        </label>#}
+{#                        <div class="col-md-6 col-sm-6 col-xs-12">#}
+{#                        <input type="text" name="ddate" class="form-control has-feedback-left" id="single_cal6" placeholder="" aria-describedby="inputSuccess2Status2" required="required">#}
+{#                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>#}
+{#                                <span id="inputSuccess2Status2" class="sr-only">(success)</span>#}
+{#                        </div>#}
+{#                      </div>#}
+
+                         <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Joining due Date<span class="required"></span>
+                        </label>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+{#                         <input type="date" name="startdate" min="2023-03-03"  required="required">#}
+                            <input type="date"  name="ddate"  min="{{ today|date:'Y-m-d' }}"  required="required">
+{#                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>#}
+{#                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>#}
+                        </div>
+                      </div>
 
                         <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Payment due Date <span class="required">*</span>
@@ -212,8 +242,28 @@
           </div>
         </div>
 
-
-
+{##}
+{#<script>#}
+{#    $(document).ready(function() {#}
+{#  $('#single_cal4').datetimepicker({#}
+{#       format: 'YYYY-MM-DD',#}
+{#    minDate: moment().startOf('day')#}
+{#  });#}
+{#});#}
+{#      $(document).ready(function() {#}
+{#  $('#single_cal5').datetimepicker({#}
+{#       format: 'YYYY-MM-DD',#}
+{#    minDate: moment().startOf('day')#}
+{#  });#}
+{#});#}
+{#        $(document).ready(function() {#}
+{#  $('#single_cal6').datetimepicker({#}
+{#       format: 'YYYY-MM-DD',#}
+{#    minDate: moment().startOf('day')#}
+{#  });#}
+{#});#}
+{##}
+{#</script>#}
 
 
 

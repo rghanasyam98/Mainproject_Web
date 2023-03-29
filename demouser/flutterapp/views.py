@@ -7,7 +7,8 @@ import random
 from datetime import datetime,date
 
 from django.shortcuts import get_object_or_404
-from myapp.models import Myuser,Accountrequest,Account,News,Loan,Customerloan,Kyc,Chit,Customerchit
+from myapp.models import Myuser, Accountrequest, Account, News, Loan, Customerloan, Kyc, Chit, Customerchit, Auction, \
+    Auctionbid, Auctionbidamount
 from django.contrib.auth import authenticate, logout, login
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
@@ -730,6 +731,7 @@ def getappliedchits(request):
         chit_list = [None] * chit_list_size
         for i, x in enumerate(chits):
             chit_dict = {
+                'id': x.id,
                 'chit_name': x.chitid.name,
                 'amount': x.chitid.chit_amount,
                 'period': x.chitid.period,
@@ -758,5 +760,106 @@ def getbalance(request):
     status_code = 400
     return JsonResponse(data, status=status_code)
 
+@csrf_exempt
+def auctionupdate(request):
+    if request.method == 'POST':
+        print("auction")
+        # current_time = datetime.now()
+        # time_str = current_time.strftime("%H:%M:%S")
+        # print(time_str)
+        bidamount = Auctionbidamount.objects.filter(auction_id_id=21).order_by('-amount').values()[:3]
+        # bidamount = Auctionbidamount.objects.get(auction_id_id=21).order_by('-bid_amount')
+        # data={'custchitid':bidamount.custchitid,'amount':bidamount.amount}
+        # print(data)
+        data = {'bidamount': list(bidamount.values())}
+        print(data)
+        # data = {'min_bid_amount': time_str}
+        status_code = 200
+        return JsonResponse(data, status=status_code)
 
 
+@csrf_exempt
+def getauctions(request):
+    if request.method == 'POST':
+        print("view auctions")
+        accno = request.POST.get('accno')
+        print(accno)
+        chitobj=Customerchit.objects.filter(account_number_id=accno)
+        lst=[]
+        for x in chitobj:
+            lst.append(x.chitid_id)
+        print(lst)
+        auctionobj=Auction.objects.filter(chitid_id__in=lst)
+        print(auctionobj)
+
+        status_code = 200
+        data = {'status': 'success'}
+        return JsonResponse(data, status=status_code)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+
+@csrf_exempt
+def getjoinedchits(request):
+    if request.method == 'POST':
+        print("****")
+        accno = request.POST.get('accno')
+        chits = Customerchit.objects.filter(account_number_id=accno,status="approved")
+        chit_list_size = len(chits)
+        chit_list = [None] * chit_list_size
+        for i, x in enumerate(chits):
+            chit_dict = {
+                'id' : x.id,
+                'chit_name': x.chitid.name,
+                'amount': x.chitid.chit_amount,
+                'period': x.chitid.period,
+                'status': x.status,
+                'start': x.chitid.start_date,
+                'end': x.chitid.end_date,
+                'paydue':x.chitid.pay_due_date,
+                'current_installment': x.current_payment_count,
+                'chittal_number':x.chittal_number
+            }
+            chit_list[i] = chit_dict
+        serialized_data = chit_list
+        print(serialized_data)  # convert queryset to list of dictionaries
+        return JsonResponse(serialized_data, safe=False, status=200)
+
+
+@csrf_exempt
+def getjoinedchitauctioninfo(request, custchitid):
+    if request.method == 'POST':
+        print(custchitid)
+        chitid=Customerchit.objects.get(id=custchitid).chitid_id
+        auctionobj=Auction.objects.filter(chitid_id=chitid).order_by("-id")
+        print(auctionobj)
+        serialized_data = list(auctionobj.values())
+        print(serialized_data)  # convert que
+        status_code = 200
+        data = {'status': 'success'}
+        print(serialized_data)  # convert queryset to list of dictionaries
+        return JsonResponse(serialized_data, safe=False, status=200)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+
+@csrf_exempt
+def submitbid(request):
+    if request.method == 'POST':
+        custchitid = request.POST.get('custchitid')
+        auctionid = request.POST.get('auctionid')
+        amount= request.POST.get('amount')
+        print(custchitid,auctionid,amount)
+        bidobj=Auctionbidamount()
+        bidobj.auction_id_id=int(auctionid)
+        bidobj.cust_chitid_id=int(custchitid)
+        bidobj.amount=amount
+        bidobj.save()
+        status_code = 200
+        data = {'status': 'success'}
+        return JsonResponse(data, status=status_code)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)

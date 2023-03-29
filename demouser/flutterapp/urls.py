@@ -24,6 +24,11 @@ urlpatterns = [
     path('sendchitrequest/', views.sendchitrequest, name='sendchitrequest'),
     path('getappliedchits/', views.getappliedchits, name='getappliedchits'),
     path('getbalance/', views.getbalance, name='getbalance'),
+    path('auctionupdate/', views.auctionupdate, name='auctionupdate'),
+    path('getauctions/', views.getauctions, name='getauctions'),
+    path('getjoinedchits/', views.getjoinedchits, name='getjoinedchits'),
+    path('getjoinedchitauctioninfo/<int:custchitid>/', views.getjoinedchitauctioninfo, name='getjoinedchitauctioninfo'),
+    path('submitbid/', views.submitbid, name='submitbid'),
 
     # ... other URL patterns ...
 ]

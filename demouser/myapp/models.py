@@ -143,3 +143,13 @@ class Notification(models.Model):
     content = models.CharField(max_length=60)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Auctionbid(models.Model):
+    auction_id = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    cust_chitid = models.ForeignKey(Customerchit, on_delete=models.CASCADE)
+    amount = models.PositiveBigIntegerField()
+
+class Auctionbidamount(models.Model):
+    auction_id = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    cust_chitid = models.ForeignKey(Customerchit, on_delete=models.CASCADE)
+    amount =  models.DecimalField(max_digits=12, decimal_places=4)

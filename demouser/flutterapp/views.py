@@ -4,11 +4,11 @@ from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from twilio.rest import Client
 import random
-from datetime import datetime,date
+from datetime import datetime,date,timedelta
 
 from django.shortcuts import get_object_or_404
 from myapp.models import Myuser, Accountrequest, Account, News, Loan, Customerloan, Kyc, Chit, Customerchit, Auction, \
-    Auctionbid, Auctionbidamount
+    Auctionbid, Auctionbidamount,Auctionbidamountlatest
 from django.contrib.auth import authenticate, logout, login
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
@@ -760,20 +760,83 @@ def getbalance(request):
     status_code = 400
     return JsonResponse(data, status=status_code)
 
+# @csrf_exempt
+# def auctionupdate(request,auction_id):
+#     if request.method == 'POST':
+#         print("auction")
+#         bidamount = Auctionbidamountlatest.objects.filter(auction_id_id=auction_id).order_by('amount').values()[:3]
+#         bidamounttop = Auctionbidamountlatest.objects.filter(auction_id_id=auction_id).order_by('amount')
+#         # created=bidamounttop[0].created_at
+#         created = timezone.localtime(bidamounttop[0].created_at)
+#         time_difference = datetime.now() - created
+#         third_call = False
+#         second_call = False
+#         first_call = False
+#         # Check if the time difference is greater than 3 minutes
+#         if time_difference > timedelta(minutes=3):
+#             third_call = True
+#             second_call = True
+#             first_call = True
+#         # Check if the time difference is greater than 2 minutes and less than or equal to 3 minutes
+#         elif time_difference > timedelta(minutes=2):
+#             third_call = False
+#             second_call = True
+#             first_call = True
+#         # Check if the time difference is greater than 1 minute and less than or equal to 2 minutes
+#         elif time_difference > timedelta(minutes=1):
+#             third_call = False
+#             second_call = False
+#             first_call = True
+#         # The time difference is less than or equal to 1 minute
+#         else:
+#             third_call = False
+#             second_call = False
+#             first_call = False
+#
+#
+#         # data = {'bidamount': list(bidamount.values())}
+#         data = {'bidamount': list(bidamount.values()), 'third_call': third_call, 'second_call': second_call, 'first_call': first_call}
+#
+#         print(data)
+#         # data = {'min_bid_amount': time_str}
+#         status_code = 200
+#         return JsonResponse(data, status=status_code)
+
 @csrf_exempt
-def auctionupdate(request):
+def auctionupdate(request,auction_id):
     if request.method == 'POST':
         print("auction")
-        # current_time = datetime.now()
-        # time_str = current_time.strftime("%H:%M:%S")
-        # print(time_str)
-        bidamount = Auctionbidamount.objects.filter(auction_id_id=21).order_by('-amount').values()[:3]
-        # bidamount = Auctionbidamount.objects.get(auction_id_id=21).order_by('-bid_amount')
-        # data={'custchitid':bidamount.custchitid,'amount':bidamount.amount}
-        # print(data)
-        data = {'bidamount': list(bidamount.values())}
+        bidamount = Auctionbidamountlatest.objects.filter(auction_id_id=auction_id).order_by('amount').values()[:3]
+        bidamounttop = Auctionbidamountlatest.objects.filter(auction_id_id=auction_id).order_by('amount')
+        created = bidamounttop[0].created_at
+        created = timezone.localtime(created)
+        time_difference = timezone.now() - created
+        third_call = False
+        second_call = False
+        first_call = False
+        # Check if the time difference is greater than 3 minutes
+        if time_difference > timedelta(minutes=3):
+            third_call = True
+            second_call = True
+            first_call = True
+        # Check if the time difference is greater than 2 minutes and less than or equal to 3 minutes
+        elif time_difference > timedelta(minutes=2):
+            third_call = False
+            second_call = True
+            first_call = True
+        # Check if the time difference is greater than 1 minute and less than or equal to 2 minutes
+        elif time_difference > timedelta(minutes=1):
+            third_call = False
+            second_call = False
+            first_call = True
+        # The time difference is less than or equal to 1 minute
+        else:
+            third_call = False
+            second_call = False
+            first_call = False
+
+        data = {'bidamount': list(bidamount.values()), 'third_call': third_call, 'second_call': second_call, 'first_call': first_call}
         print(data)
-        # data = {'min_bid_amount': time_str}
         status_code = 200
         return JsonResponse(data, status=status_code)
 
@@ -852,7 +915,7 @@ def submitbid(request):
         auctionid = request.POST.get('auctionid')
         amount= request.POST.get('amount')
         print(custchitid,auctionid,amount)
-        bidobj=Auctionbidamount()
+        bidobj=Auctionbidamountlatest()
         bidobj.auction_id_id=int(auctionid)
         bidobj.cust_chitid_id=int(custchitid)
         bidobj.amount=amount
@@ -860,6 +923,81 @@ def submitbid(request):
         status_code = 200
         data = {'status': 'success'}
         return JsonResponse(data, status=status_code)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+
+# @csrf_exempt
+# def get_auction_remaining_seconds(request,aid):
+#     if request.method == 'POST':
+#         auction = Auction.objects.get(id=aid)
+#
+#         # Combine the date and time fields to create a datetime object
+#         auction_datetime = datetime.combine(auction.auction_date, auction.auction_time)
+#
+#         # Calculate the time difference between the auction datetime and the current time
+#         from django.utils import timezone
+#         time_difference = auction_datetime - timezone.now()
+#
+#         # Convert the time difference to seconds
+#         remaining_seconds = time_difference.total_seconds()
+#         print("remaining_seconds",remaining_seconds)
+#         data = {'remaining_seconds': remaining_seconds}
+#         return JsonResponse(data, status=200)
+#     data = {'status': 'failure'}
+#     status_code = 400
+#     return JsonResponse(data, status=status_code)
+
+from django.utils import timezone
+
+#
+# @csrf_exempt
+# def get_auction_remaining_seconds(request, aid):
+#     if request.method == 'POST':
+#         auction = Auction.objects.get(id=aid)
+#
+#         # Combine the date and time fields to create a timezone-aware datetime object
+#         auction_datetime = timezone.make_aware(datetime.combine(auction.auction_date, auction.auction_time))
+#
+#         # Calculate the time difference between the auction datetime and the current time
+#         time_difference = auction_datetime - timezone.now()
+#
+#         # Convert the time difference to seconds
+#         # remaining_seconds = time_difference.total_seconds()
+#         remaining_seconds = abs(time_difference.total_seconds())
+#         print("remaining_seconds", remaining_seconds)
+#         data = {'remaining_seconds': remaining_seconds}
+#         return JsonResponse(data, status=200)
+#
+#     data = {'status': 'failure'}
+#     status_code = 400
+#     return JsonResponse(data, status=status_code)
+
+
+@csrf_exempt
+def get_auction_remaining_seconds(request, aid):
+    if request.method == 'POST':
+        auction = Auction.objects.get(id=aid)
+
+        # Combine the date and time fields to create a timezone-aware datetime object
+        auction_datetime = timezone.make_aware(datetime.combine(auction.auction_date, auction.auction_time))
+
+        # Calculate the time difference between the auction datetime and the current time
+        time_difference = auction_datetime - timezone.now()
+
+        # Get the end time of the auction (30 minutes after the starting time)
+        auction_end_time = auction_datetime + timedelta(minutes=30)
+
+        # Calculate the time difference between the auction end time and the current time
+        remaining_time = auction_end_time - timezone.now()
+
+        # Convert the remaining time to seconds
+        remaining_seconds = max(remaining_time.total_seconds(), 0)
+        print("remaining_seconds",remaining_seconds)
+        data = {'remaining_seconds': remaining_seconds}
+        return JsonResponse(data, status=200)
+
     data = {'status': 'failure'}
     status_code = 400
     return JsonResponse(data, status=status_code)

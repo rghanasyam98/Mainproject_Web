@@ -1,0 +1,221 @@
+{% include "staffheader.html" %}
+
+
+
+    <style>
+     .card {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 600px;
+  padding: 20px;
+  text-align: left;
+}
+
+.card h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.card p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card img {
+  border-radius: 50%;
+  height: 100px;
+  margin-right: 20px;
+  width: 100px;
+}
+
+.card button {
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+
+.card button:hover {
+  background-color: #3e8e41;
+}
+
+
+    </style>
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+
+
+
+
+
+
+
+
+
+              <div class="title_right">
+
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+
+                  <div class="input-group">
+
+
+
+
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <div class="clearfix">
+</div>
+{#        <a href="{% url 'addchit' %}" class="btn btn-sm btn-warning" align="right" >Add New</a>#}
+            <div class="row">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div class="x_panel">
+                  <div class="x_title">
+{#                    <h2>Request Details  <small></small></h2>#}
+{#                    <ul class="nav navbar-right panel_toolbox">#}
+{#                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
+{#                      </li>#}
+{#                      <li class="dropdown">#}
+{#                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
+{#                        <ul class="dropdown-menu" role="menu">#}
+{#                          <li><a href="#">Settings 1</a>#}
+{#                          </li>#}
+{#                          <li><a href="#">Settings 2</a>#}
+{#                          </li>#}
+{#                        </ul>#}
+{#                      </li>#}
+{#                      <li><a class="close-link"><i class="fa fa-close"></i></a>#}
+{#                      </li>#}
+{#                    </ul>#}
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+{#                    <p class="text-muted font-13 m-b-30">#}
+{#                      DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>#}
+{#                    </p>#}
+
+
+
+
+<div class="card">
+  <div class="card-header">
+    <h4>Customer Information</h4>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>Full Name:</th>
+          <td>{{ accountrequest.accrid.fname }} {{ accountrequest.accrid..lname }}</td>
+        </tr>
+        <tr>
+          <th>Gender:</th>
+          <td>{{ accountrequest.accrid.gender }}</td>
+        </tr>
+        <tr>
+          <th>Date of Birth:</th>
+          <td>{{ accountrequest.accrid.dob }}</td>
+        </tr>
+        <tr>
+          <th>Address:</th>
+          <td>{{ accountrequest.accrid.address }}</td>
+        </tr>
+        <tr>
+          <th>Marital Status:</th>
+          <td>{{ accountrequest.accrid.marital_status }}</td>
+        </tr>
+        <tr>
+          <th>Name of Father/Mother/Spouse:</th>
+          <td>{{ accountrequest.accrid.namefms }}</td>
+        </tr>
+        <tr>
+          <th>Number of Dependents:</th>
+          <td>{{ accountrequest.accrid.dependants }}</td>
+        </tr>
+        <tr>
+          <th>Nationality:</th>
+          <td>{{ accountrequest.accrid.nationality }}</td>
+        </tr>
+        <tr>
+          <th>Occupation:</th>
+          <td>{{ accountrequest.accrid.occupation }}</td>
+        </tr>
+        <tr>
+          <th>Income:</th>
+          <td>{{ accountrequest.accrid.income }}</td>
+        </tr>
+        <tr>
+          <th>Qualification:</th>
+          <td>{{ accountrequest.accrid.qualification }}</td>
+        </tr>
+        <tr>
+          <th>Type:</th>
+          <td>{{ accountrequest.accrid.type }}</td>
+        </tr>
+        <tr>
+          <th>Property:</th>
+          <td>{{ accountrequest.accrid.pan }}</td>
+        </tr>
+        <tr>
+          <th>Aadhar Number:</th>
+          <td>{{ accountrequest.accrid.aadhar }}</td>
+        </tr>
+        <tr>
+          <th>Nominee Name:</th>
+          <td>{{ accountrequest.accrid.nomname }}</td>
+        </tr>
+        <tr>
+          <th>Nominee Address:</th>
+          <td>{{ accountrequest.accrid.nomaddress }}</td>
+        </tr>
+        <tr>
+          <th>Relation with Nominee:</th>
+          <td>{{ accountrequest.accrid.relation }}</td>
+        </tr>
+        <tr>
+          <th>Image:</th>
+          <td><img src="{{ accountrequest.accrid.image.url }}" alt="User Image"></td>
+        </tr>
+       <tr>
+           <th colspan="2" align="center"><a href="{% url 'confirmnewmembertochit' %}" class="btn btn-primary">Confirm</a>
+</th>
+       </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+
+
+{% include "stafffooter.html" %}

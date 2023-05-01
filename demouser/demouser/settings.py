@@ -28,10 +28,10 @@ DEBUG = True
 
 AUTH_USER_MODEL = 'myapp.Myuser'
 
-# ALLOWED_HOSTS = ['10.0.2.2']
+ALLOWED_HOSTS = ['*','10.0.2.2']
 
 # ALLOWED_HOSTS = ['192.168.43.210']
-ALLOWED_HOSTS = ['127.0.1.1','10.0.2.2']
+# ALLOWED_HOSTS = ['127.0.1.1','10.0.2.2']
 # ALLOWED_HOSTS = ['192.168.43.210','127.0.1.1']
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'myapp',
-    'flutterapp'
+    'flutterapp',
+    'staff'
 ]
 
 MIDDLEWARE = [

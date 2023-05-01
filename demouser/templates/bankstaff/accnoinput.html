@@ -1,0 +1,255 @@
+{% include "staffheader.html" %}
+
+
+
+    <style>
+      {#* {#}
+      {#  box-sizing: border-box;#}
+      {#  margin: 0;#}
+      {#  padding: 0;#}
+      {#}#}
+      {##}
+      {#html,#}
+      {#body {#}
+      {#  height: 100%;#}
+      {#}#}
+      {##}
+      {#body {#}
+      {#  display: flex;#}
+      {#  justify-content: center;#}
+      {#  align-items: center;#}
+      {#}#}
+
+     .card {
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  margin: auto;
+  margin-top: 110px; /* add margin-top property here */
+  padding: 20px;
+  max-width: 500px;
+}
+
+      .card h2 {
+        margin-top: 0;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+           margin-left: 70px;
+      }
+
+      .card p {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #666;
+
+      }
+
+      .card a {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #f44336;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 25px;
+        margin-top: 10px;
+      }
+
+      .card a:hover {
+        background-color: #d32f2f;
+      }
+
+      /* Textfield and Submit Button Styles */
+      .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      input[type="number"] {
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        color: #666;
+          width: 350px;
+      }
+
+      input[type="submit"] {
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-top: 10px;
+          margin-left: 50px;
+        cursor: pointer;
+          width: 200px;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #d32f2f;
+      }
+
+        * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+        .dropdown select {
+  background-color: #fff;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  color: #666;
+  font-size: 16px;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+}
+
+.dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #666;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.dropdown select:focus {
+  outline: none;
+}
+
+.dropdown select option {
+  background-color: #fff;
+  color: #666;
+}
+
+    </style>
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+
+
+
+
+
+
+
+
+
+              <div class="title_right">
+
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+
+                  <div class="input-group">
+
+
+
+
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <div class="clearfix">
+</div>
+{#        <a href="{% url 'addchit' %}" class="btn btn-sm btn-warning" align="right" >Add New</a>#}
+            <div class="row">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div class="x_panel">
+                  <div class="x_title">
+{#                    <h2>Request Details  <small></small></h2>#}
+{#                    <ul class="nav navbar-right panel_toolbox">#}
+{#                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
+{#                      </li>#}
+{#                      <li class="dropdown">#}
+{#                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
+{#                        <ul class="dropdown-menu" role="menu">#}
+{#                          <li><a href="#">Settings 1</a>#}
+{#                          </li>#}
+{#                          <li><a href="#">Settings 2</a>#}
+{#                          </li>#}
+{#                        </ul>#}
+{#                      </li>#}
+{#                      <li><a class="close-link"><i class="fa fa-close"></i></a>#}
+{#                      </li>#}
+{#                    </ul>#}
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+{#                    <p class="text-muted font-13 m-b-30">#}
+{#                      DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>#}
+{#                    </p>#}
+
+
+
+
+ <div class="card">
+      <h2>Enter account number to add</h2>
+      <div class="form-container">
+      <form method="post" action=" {% url 'submitnewmembertochit' %}">
+          {% csrf_token %}
+        <input type="number" placeholder="Account number" name="accno" required />
+        <br>
+          <div class="dropdown">
+        <select name="chittalno" required>
+            {% for x in available_list %}
+          <option value="{{ x }}">{{ x }}</option>
+{#          <option value="savings">Savings Account</option>#}
+{#          <option value="current">Current Account</option>#}
+            {% endfor %}
+        </select>
+      </div>
+      <br>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+    </div>
+
+
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+
+
+{% include "stafffooter.html" %}

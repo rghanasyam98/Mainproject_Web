@@ -1,0 +1,509 @@
+
+{% include 'staffheader.html' %}
+{% load static %}
+
+<style>
+    /* Styles for the popup */
+
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.card {
+  max-width: 60%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  margin: auto; /* center horizontally */
+  margin-top: 10%; /* add margin from top */
+  margin-bottom: 10%; /* add margin from bottom */
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.card h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.card button {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #3e8e41;
+}
+
+    #popup-id {
+  display: none;
+}
+
+
+
+   .product-image {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* adjust this value to your desired size */
+}
+
+.product-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.product-image:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.product-image form {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1;
+}
+
+.product-image form input[type="submit"] {
+  background: #fff;
+  border: none;
+  color: #333;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.product-image form input[type="submit"]:hover {
+  background: #333;
+  color: #fff;
+}
+
+
+
+</style>
+
+
+ <!-- page content -->
+        <div class="right_col" role="main">
+
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>More Details</h3>
+              </div>
+
+
+<div class="popup" id="popup" style="display:none;">
+  <div class="card">
+    <div class="row">
+      <div class="item form-group col-md-4">
+        <label class="control-label col-md-12" for="startdate">Minimum Date<span class="required"></span>
+        </label>
+        <div class="col-md-12">
+          <input type="date" name="startdate" id="startdate" min="2023-03-03" required="required">
+        </div>
+      </div>
+
+      <div class="item form-group col-md-4">
+        <label class="control-label col-md-12" for="enddate">Maximum Date<span class="required"></span>
+        </label>
+        <div class="col-md-12">
+          <input type="date" name="enddate" id="enddate" min="2023-03-03" required="required">
+        </div>
+      </div>
+
+      <div class="item form-group col-md-4">
+        <label class="control-label col-md-12" for="emi">EMI<span class="required">*</span><p><span id="popup-id"></span></p>
+        </label>
+        <div class="col-md-12">
+          <input id="emi" class="form-control col-md-7" name="emi" placeholder=" " required="required" type="text">
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <button  onclick="acceptDetails()">Submit</button>
+
+    <!-- Close button -->
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                      <div class="product-image">
+                            {{ form.as_p }}
+                        <img src="/media/{{ loanrequest.account_number.accrid.image}}" alt="image" height="600", width="100"/>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-5 col-sm-5 col-xs-12" style="border:0px solid #e5e5e5;">
+
+                      <h1 class="prod_title">{{ loanrequest.loanid.lname }}</h1>
+                     <h2 class="prod_title">Applicant Details</h2>
+                        <h4> First Name : {{ loanrequest.account_number.accrid.fname }}</h4>
+                         <h4> Last Name : {{ loanrequest.account_number.accrid.lname }}</h4>
+                     <h4> Email : {{ loanrequest.account_number.accrid.uid.email }}</h4>
+                         <h4> Phone : {{ loanrequest.account_number.accrid.uid.phone }}</h4>
+                         <h4> Account Number : {{ loanrequest.account_number_id }}</h4>
+                         <h4> Gender : {{ loanrequest.account_number.accrid.gender }}</h4>
+                         <h4> Date Of Birth : {{ loanrequest.account_number.accrid.dob }}</h4>
+                        <h4> Address : {{ loanrequest.account_number.accrid.address }}</h4>
+                         <h4> Name of Father/Mother/Spouse : {{ loanrequest.account_number.accrid.namefms }}</h4>
+                         <h4> Marital Status : {{ loanrequest.account_number.accrid.marital_status }}</h4>
+                         <h4> Dependants : {{ loanrequest.account_number.accrid.dependants }}</h4>
+                         <h4> Nationality : {{ loanrequest.account_number.accrid.nationality }}</h4>
+                         <h4> Self Employment Status : {{ loanrequest.account_number.accrid.occupation }}</h4>
+                         <h4> Income : {{ loanrequest.account_number.accrid.income }}</h4>
+                         <h4> Gradutation Status : {{ loanrequest.account_number.accrid.qualification }}</h4>
+                        <h4> Property: {{ loanrequest.account_number.accrid.pan }}</h4>
+                         <h4> Aadhaar : {{ loanrequest.account_number.accrid.aadhar }}</h4>
+                         <h4> Nominee : {{ loanrequest.account_number.accrid.nomname }}</h4>
+                         <h4> Nominee Address : {{ loanrequest.account_number.accrid.nomaddress }}</h4>
+                         <h4>Relation to Nominee : {{ loanrequest.account_number.accrid.relation }}</h4>
+                      <br />
+
+
+
+                      <div class="">
+                        <h2 class="prod_title">Loan Request Details <small></small></h2>
+                        <ul class="list-inline prod_size">
+                          <li>
+                            <button type="button" class="btn btn-default btn-xs">{{ loanrequest.created_at.date }}</button>
+                          </li>
+                            <li>
+                            <h4>Loan Request Status : {{ loanrequest.status }}</h4>
+                          </li>
+
+                        </ul>
+                      </div>
+
+                      <div class="">
+                        <div class="product_price">
+                          <h1 class="price">Loan Amount : {{ loanrequest.loan_amount }} Rs</h1>
+
+                          <br>
+                        </div>
+                      </div>
+
+                         <div class="">
+                        <h2 class="prod_title">{{ loanrequest.loanid.lname }} details</h2>
+                        <ul class="list-inline prod_color">
+                          <li>
+                            <h3>Rate of Interest : {{ loanrequest.loanid.roi }}% </h3>
+                               <h3>Minimam Loan Amount : {{ loanrequest.loanid.min }} </h3>
+                               <h3>Maximam Loan Amount : {{ loanrequest.loanid.max }} </h3>
+{#                            <div class="color bg-green"></div>#}
+                          </li>
+
+
+                        </ul>
+                      </div>
+                      <br />
+
+                      <div class="">
+                        <a class="btn btn-success" onclick=showPopup(true,"{{ loanrequest.id }}");>Approve</a>
+                        <a  class="btn btn-danger" href="{% url 'reject_loanrequest' loanrequest.id %}">Reject</a>
+                       {% if loanrequest.loanid.lname == "Personal loan" %}
+    <a  class="btn btn-warning">Check Eligibility</a>
+{% endif %}
+                      </div>
+
+
+
+                    </div>
+
+
+                    <div class="col-md-12">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+
+
+
+<script>
+
+    async function acceptDetails() {
+  try {
+    const itemId = document.getElementById("popup-id").textContent.trim();
+    const startDate = document.getElementById("startdate").value;
+    const endDate = document.getElementById("enddate").value;
+    const emi = document.getElementById("emi").value;
+
+    if (!startDate || !endDate || !emi) {
+      throw new Error("Please fill in all the fields.");
+    }
+
+    const url = "/staff/approve_loan/" + itemId + "/";
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        startdate: startDate,
+        enddate: endDate,
+        emi: emi
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    // Parse the response data as JSON
+    const data = await response.json();
+
+    // Handle the response data here
+    console.log(data);
+    location.reload();
+    alert("Approved");
+    closePopup();
+     window.location.href = "/staff/view_loanrequests";
+  } catch (error) {
+    console.error("Error:", error);
+    alert(error.message);
+  }
+}
+
+
+
+{#    async function acceptDetails() {#}
+{#  try {#}
+{#    const itemId = document.getElementById("popup-id").textContent.trim();#}
+{#    const startDate = document.getElementById("startdate").value;#}
+{#    const endDate = document.getElementById("enddate").value;#}
+{#    const emi = document.getElementById("emi").value;#}
+{##}
+{#    if (!startDate || !endDate || !emi) {#}
+{#      throw new Error("Please fill in all the fields.");#}
+{#    }#}
+{##}
+    {#alert("Start Date: " + startDate + "\n" +#}
+    {#      "End Date: " + endDate + "\n" +#}
+    {#      "EMI: " + emi);#}
+{#   const url = "/staff/approve_loan/" + itemId+"/";#}
+{#    const response = await fetch(url, {#}
+{#      method: "POST",#}
+{#      body: JSON.stringify({ startdate: startDate, enddate: endDate, emi: emi }),#}
+{#      headers: {#}
+{#        "Content-Type": "application/json"#}
+{#      }#}
+{#    });#}
+{##}
+{#    if (!response.ok) {#}
+{#      throw new Error("Network response was not ok");#}
+{#      alert("Internal error");#}
+{#    }#}
+{#   else{location.reload();alert("Approved"); closePopup();}#}
+{#    // Parse the response data as JSON#}
+{#    const data = await response.json();#}
+{##}
+{#    // Handle the response data here#}
+{#    console.log(data);#}
+{#  } catch (error) {#}
+{#    console.error("Error:", error);#}
+{#  }#}
+{#}#}
+
+
+
+{#    async function acceptDetails() {#}
+{#  try {#}
+{#    const itemId = document.getElementById("popup-id").textContent.trim();#}
+{#    const startDate = document.getElementById("startdate").value;#}
+{#    const endDate = document.getElementById("enddate").value;#}
+{#    const emi = document.getElementById("emi").value;#}
+{##}
+{#    if (!startDate || !endDate || !emi) {#}
+{#      throw new Error("Please fill in all the fields.");#}
+{#    }#}
+{##}
+{#    alert("Start Date: " + startDate + "\n" +#}
+{#          "End Date: " + endDate + "\n" +#}
+{#          "EMI: " + emi);#}
+{##}
+{#    // Add your fetch request here#}
+{##}
+{#    alert("Approved");#}
+{#    closePopup();#}
+{#  } catch (error) {#}
+{#    console.error("Error:", error);#}
+{#    alert(error.message);#}
+{#  }#}
+{#}#}
+
+
+{#    async function acceptDetails() {#}
+{#  try {#}
+{#    const itemId = document.getElementById("popup-id").textContent.trim();#}
+{#    const startdate = document.getElementsByName("startdate")[0].value;#}
+{#    const enddate = document.getElementsByName("enddate")[0].value;#}
+{#    const emi = document.getElementById("emi").value;#}
+{##}
+{#    if (!startdate || !enddate || !emi) {#}
+{#      throw new Error("Please fill in all the fields.");#}
+{#      return ;#}
+{#    }#}
+{#    alert("Start Date: " + startDate + "\n" +#}
+{#          "End Date: " + endDate + "\n" +#}
+{#          "EMI: " + emi);#}
+{##}
+    {#const url = "accept_accountrequest/" + itemId + "/";#}
+    {#const response = await fetch(url, {#}
+    {#  method: "POST",#}
+    {#  body: JSON.stringify({ id: itemId, startdate: startdate, enddate: enddate, emi: emi }),#}
+    {#  headers: {#}
+    {#    "Content-Type": "application/json"#}
+    {#  }#}
+    {#});#}
+    {##}
+    {#if (!response.ok) {#}
+    {#  throw new Error("Network response was not ok");#}
+    {#}#}
+    {##}
+    {#location.reload();#}
+    {#alert("Approved");#}
+    {#closePopup();#}
+{#  } catch (error) {#}
+{#    console.error("Error:", error);#}
+{#    alert(error.message);#}
+{#  }#}
+{#}#}
+
+
+{##}
+{#async function acceptDetails() {#}
+{#  try {#}
+{#    // Get the ID of the selected row#}
+    {#const itemId = document.getElementById("popup-id").innerHTML; #}
+{#          const itemId = document.getElementById("popup-id") .textContent.trim();#}
+{#        alert(itemId);#}
+{#    // Construct the URL with the ID#}
+   {#const url = "accept_accountrequest/" + itemId+"/";#}
+   {##}
+   {# // Make a POST request to the backend with the ID as the payload#}
+   {# const response = await fetch(url, {#}
+   {#   method: "POST",#}
+   {#   body: JSON.stringify({ id: itemId }),#}
+   {#   headers: {#}
+   {#     "Content-Type": "application/json"#}
+   {#   }#}
+   {# });#}
+   {##}
+   {# if (!response.ok) {#}
+   {#   throw new Error("Network response was not ok");#}
+   {#   alert("Internal error");#}
+   {# }#}
+   {#else{location.reload();alert("Approved"); closePopup();}#}
+   {# // Parse the response data as JSON#}
+   {# const data = await response.json();#}
+   {##}
+   {# // Handle the response data here#}
+   {# console.log(data);#}
+{#  } catch (error) {#}
+{#    console.error("Error:", error);#}
+{#  }#}
+{#}#}
+
+
+  function showPopup(popupStatus,id) {
+      {#alert(id);#}
+
+    var popup = document.getElementById("popup");
+      document.getElementById("popup-id").innerHTML = id;
+    if (popupStatus) {
+      popup.style.display = "block";
+    }
+  }
+
+  function closePopup() {
+    var popup = document.getElementById("popup");
+    popup.style.display = "none";
+  }
+</script>
+
+
+
+
+  {% include 'stafffooter.html' %}

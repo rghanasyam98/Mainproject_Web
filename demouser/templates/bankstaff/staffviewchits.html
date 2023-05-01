@@ -1,0 +1,395 @@
+
+
+
+
+{% include 'staffheader.html' %}
+{% load static %}
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Chit request management <small></small></h3>
+              </div>
+
+
+
+ <div class="item form-group">
+
+{#                        <div class="col-md-6 col-sm-6 col-xs-12">#}
+{#                          <select class="form-control"  name="loan" id="loan" >#}
+{#                          {% for i in loanobj %}#}
+{#                              <option value="{{ i.id }}">{{ i.lname }}</option>#}
+{#                              <option value="Ad">Advertisement</option>#}
+{#                              {% endfor %}#}
+{##}
+{#                          </select>#}
+{#                        </div>#}
+                      </div>
+
+              <div class="title_right">
+
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+
+                  <div class="input-group">
+
+
+
+
+{#                    <input type="text" class="form-control" placeholder="Search for...">#}
+{#                    <span class="input-group-btn">#}
+{#                      <button class="btn btn-default" type="button">Go!</button>#}
+{#                    </span>#}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="clearfix">
+</div>
+
+{#        <a href="{% url 'addauction' %}" class="btn btn-sm btn-warning" align="right" >Add Auction</a>#}
+            <div class="row">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Chit details  <small></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+
+
+
+ <div class="" role="tabpanel" data-example-id="togglable-tabs">
+
+
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Latest</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Ongoing</a>
+                        </li>
+
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+{#                          <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher#}
+{#                            synth. Cosby sweater eu banh mi, qui irure terr.</p>#}
+                             {% for i in chitobj %}
+                      <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                        <div class="well profile_view">
+                          <div class="col-sm-12">
+                            <h4 class="brief"><i>Chit ID: {{ i.id }}</i></h4>
+                            <div class="left col-xs-7">
+                              <h2>{{ i.name }}</h2>
+                              <p><strong><i class="fa fa-money"></i> Amount: {{ i.chit_amount }} Rs </strong> </p>
+                              <ul class="list-unstyled">
+                                <li><i class="fa fa-chain"></i> Period: {{ i.period }} Months </li>
+                                <li><i class="fa fa-calendar-plus-o"></i> Start Date : {{ i.start_date  }} </li>
+                                   <li><i class="fa fa-calendar-minus-o"></i> End Date : {{ i.end_date  }} </li>
+                                   <li><i class="fa fa-calendar-times-o"></i> Due Date : {{ i.due_date  }} </li>
+                                    <li><i class="fa fa-clock-o"></i>Payment Due Date : {{ i.pay_due_date  }}th </li>
+                              </ul>
+                            </div>
+                            <div class="right col-xs-5 text-center">
+{#                              <img src="images/img.jpg" alt="" class="img-circle img-responsive">#}
+                            </div>
+                          </div>
+                          <div class="col-xs-12 bottom text-center">
+                            <div class="col-xs-12 col-sm-6 emphasis">
+{#                              <p class="ratings">#}
+{#                                <a>4.0</a>#}
+{#                                <a href="#"><span class="fa fa-star"></span></a>#}
+{#                                <a href="#"><span class="fa fa-star"></span></a>#}
+{#                                <a href="#"><span class="fa fa-star"></span></a>#}
+{#                                <a href="#"><span class="fa fa-star"></span></a>#}
+{#                                <a href="#"><span class="fa fa-star-o"></span></a>#}
+{#                              </p>#}
+                                <a  class="btn btn-success"  href="{% url 'addnewmembertochit' i.id %}">
+                                <i class="fa fa-user"> </i> Add member
+                              </a>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 emphasis">
+{#                              <button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">#}
+{#                                </i> <i class="fa fa-comments-o"></i> </button>#}
+                              <a  class="btn btn-warning"  href="{% url 'viewpendingchitrequests' i.id %}">
+                                <i class="fa fa-user"> </i> View Requests
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                        {% endfor %}
+
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+{#                          <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo#}
+{#                            booth letterpress, commodo enim craft beer mlkshk aliquip</p>#}
+                              {% for j in chitobj2 %}
+                      <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                        <div class="well profile_view">
+                          <div class="col-sm-12">
+                            <h4 class="brief"><i>Chit ID: {{ j.id }}</i></h4>
+                            <div class="left col-xs-7">
+                              <h2>{{ j.name }}</h2>
+                              <p><strong><i class="fa fa-money"></i> Amount: {{ j.chit_amount }} Rs </strong> </p>
+                              <ul class="list-unstyled">
+                                <li><i class="fa fa-chain"></i> Period: {{ j.period }} Months </li>
+                                <li><i class="fa fa-calendar-plus-o"></i> Start Date : {{ j.start_date  }} </li>
+                                   <li><i class="fa fa-calendar-minus-o"></i> End Date : {{ j.end_date  }} </li>
+                                   <li><i class="fa fa-calendar-times-o"></i> Due Date : {{ j.due_date  }} </li>
+                                    <li><i class="fa fa-clock-o"></i>Payment Due Date : {{ j.pay_due_date  }}th </li>
+                              </ul>
+                            </div>
+                            <div class="right col-xs-5 text-center">
+{#                              <img src="images/img.jpg" alt="" class="img-circle img-responsive">#}
+                            </div>
+                          </div>
+                          <div class="col-xs-12 bottom text-center">
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                                 <a  class="btn btn-round"  href="{% url 'viewpendingpayments' j.id %}">
+                                <i class="fa fa-money"> </i>Pending payment
+                              </a>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 emphasis">
+                                <a  class="btn btn-danger"  href="{% url 'staffviewauctionresults' j.id %}">
+                                <i class="fa fa-trophy"> </i>Results
+                              </a>
+                              <a  class="btn btn-success"  href="{% url 'viewpjoinedchitrequests' j.id %}">
+                                <i class="fa fa-user"> </i>Members
+                              </a>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                        {% endfor %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+                <script src="js/main.js"></script>
+                <script>
+$(document).ready(function() {
+    $('#datatable').DataTable();
+} );
+
+$(document).ready(function() {
+    $('#datatable2').DataTable();
+} );
+
+
+
+
+
+$(document).ready(function() {
+    $("#loan").change(function() {
+
+        var id = $('#loan option:selected').val();
+
+        var request_url = "{% url 'listloan' %}";
+
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: request_url,
+            data: {
+                cat_id: id
+            },
+            success: function(data) {
+                $('#tableData').empty();
+
+                // Loop through the data and append each row to the table
+                $.each(data.data, function(index, item) {
+                    var row = '<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + item.fname + '</td>' +
+                        '<td>' + item.lname + '</td>' +
+                        '<td>' + item.account + '</td>' +
+                        '<td>' + item.loan + '</td>' +
+                        '<td>' + item.amount + '</td>' +
+                        '<td>' + item.date + '</td>' +
+                        '<td>' + item.status + '</td>' +
+                        '<td align="center">' +
+                            '<a class="btn btn-info btn-xs" href="/staff/viewmoredetailsofloanrequest/'+ item.id + '/">View More</a>' +
+                        '</td>' +
+                        '</tr>';
+
+                    $('#tableData').append(row);
+                });
+            },
+            error: function(e) {
+                console.log('Error: ' + e);
+            }
+        });
+    });
+});
+
+
+
+
+
+</script>
+
+            {% include 'stafffooter.html' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{##}
+{#{% include 'staffheader.html' %}#}
+{#{% load static %}#}
+{##}
+{##}
+{##}
+{# <!-- page content -->#}
+{#        <div class="right_col" role="main">#}
+{#          <div class="">#}
+{#            <div class="page-title">#}
+{#              <div class="title_left">#}
+{#                <h3>Contacts Design</h3>#}
+{#              </div>#}
+{##}
+{#              <div class="title_right">#}
+{#                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">#}
+{#                  <div class="input-group">#}
+{#                    <input type="text" class="form-control" placeholder="Search for...">#}
+{#                    <span class="input-group-btn">#}
+{#                      <button class="btn btn-default" type="button">Go!</button>#}
+{#                    </span>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{##}
+{#            <div class="clearfix"></div>#}
+{##}
+{#            <div class="row">#}
+{#              <div class="col-md-12">#}
+{#                <div class="x_panel">#}
+{#                  <div class="x_content">#}
+{#                    <div class="row">#}
+{#                      <div class="col-md-12 col-sm-12 col-xs-12 text-center">#}
+{##}
+{#                        </ul>#}
+{#                      </div>#}
+{##}
+{#                      <div class="clearfix"></div>#}
+{##}
+{#                        {% for i in chitobj %}#}
+{#                      <div class="col-md-4 col-sm-4 col-xs-12 profile_details">#}
+{#                        <div class="well profile_view">#}
+{#                          <div class="col-sm-12">#}
+{#                            <h4 class="brief"><i>Chit ID: {{ i.id }}</i></h4>#}
+{#                            <div class="left col-xs-7">#}
+{#                              <h2>{{ i.name }}</h2>#}
+{#                              <p><strong>Amount: {{ i.chit_amount }} Rs </strong> </p>#}
+{#                              <ul class="list-unstyled">#}
+{#                                <li><i class="fa fa-building"></i> Period: {{ i.period }} Months </li>#}
+{#                                <li><i class="fa fa-phone"></i> Start Date : {{ i.start_date  }} </li>#}
+{#                                   <li><i class="fa fa-phone"></i> End Date : {{ i.end_date  }} </li>#}
+{#                                   <li><i class="fa fa-phone"></i> Due Date : {{ i.due_date  }} </li>#}
+{#                                    <li><i class="fa fa-phone"></i>Payment Due Date : {{ i.pay_due_date  }}th </li>#}
+{#                              </ul>#}
+{#                            </div>#}
+{#                            <div class="right col-xs-5 text-center">#}
+{#                              <img src="images/img.jpg" alt="" class="img-circle img-responsive">#}
+{#                            </div>#}
+{#                          </div>#}
+{#                          <div class="col-xs-12 bottom text-center">#}
+{#                            <div class="col-xs-12 col-sm-6 emphasis">#}
+{#                              <p class="ratings">#}
+{#                                <a>4.0</a>#}
+{#                                <a href="#"><span class="fa fa-star"></span></a>#}
+{#                                <a href="#"><span class="fa fa-star"></span></a>#}
+{#                                <a href="#"><span class="fa fa-star"></span></a>#}
+{#                                <a href="#"><span class="fa fa-star"></span></a>#}
+{#                                <a href="#"><span class="fa fa-star-o"></span></a>#}
+{#                              </p>#}
+{#                            </div>#}
+{#                            <div class="col-xs-12 col-sm-6 emphasis">#}
+{#                              <button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">#}
+{#                                </i> <i class="fa fa-comments-o"></i> </button>#}
+{#                              <a  class="btn btn-primary btn-xs">#}
+{#                                <i class="fa fa-user"> </i> View Requests#}
+{#                              </a>#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </div>#}
+{#                      </div>#}
+{##}
+{#                        {% endfor %}#}
+{##}
+{#                    </div>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <!-- /page content -->#}
+{##}
+{##}
+{#            {% include 'stafffooter.html' %}#}

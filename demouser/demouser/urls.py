@@ -24,7 +24,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myapp.urls')),
-    path('api/', include('flutterapp.urls'))
+    path('api/', include('flutterapp.urls')),
+    path('staff/', include('staff.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

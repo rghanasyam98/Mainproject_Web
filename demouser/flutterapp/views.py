@@ -5,10 +5,11 @@ from rest_framework.permissions import IsAuthenticated
 from twilio.rest import Client
 import random
 from datetime import datetime,date,timedelta
-
+from django.db.models import Min
+from decimal import Decimal
 from django.shortcuts import get_object_or_404
 from myapp.models import Myuser, Accountrequest, Account, News, Loan, Customerloan, Kyc, Chit, Customerchit, Auction, \
-    Auctionbid, Auctionbidamount,Auctionbidamountlatest
+    Auctionbid, Auctionbidamount, Auctionbidamountlatest, Result,Installment, Payment
 from django.contrib.auth import authenticate, logout, login
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
@@ -319,22 +320,22 @@ def accountlink(request):
             print(myobj.accrid.id)
             request.session['account_request_id']=myobj.accrid.id
             print(random_number)
-            # mob = '+91' + str(phone)
-            # smsmsg ="Your OTP for verification is : "+ str(random_number)
-            # account_sid = 'AC8bb9a55c8e2e83a3aec7a1af351d600b'
-            # auth_token = '6543e661182f0c1f5fccf34e70449896'
-            # client = Client(account_sid, auth_token)
-            # try:
-            #     message = client.messages.create(
-            #
-            #         body=smsmsg,
-            #         from_='+16829002201',
-            #         to=mob
-            #
-            #     )
-            # except:
-            #     data = {'status': 'failure'}
-            #     status_code = 403
+            mob = '+91' + str(phone)
+            smsmsg ="Your OTP for verification is : "+ str(random_number)
+            account_sid = 'AC8bb9a55c8e2e83a3aec7a1af351d600b'
+            auth_token = '6543e661182f0c1f5fccf34e70449896'
+            client = Client(account_sid, auth_token)
+            try:
+                message = client.messages.create(
+
+                    body=smsmsg,
+                    from_='+16829002201',
+                    to=mob
+
+                )
+            except:
+                data = {'status': 'failure'}
+                status_code = 403
 
 
             data = {'status': 'success','otp':random_number,'account_requestid':myobj.accrid.id}
@@ -653,6 +654,7 @@ def kycupload(request):
 @csrf_exempt
 def getchits(request):
     if request.method == 'POST':
+        print("getchits")
         current_date = date.today()
         chits=Chit.objects.filter(due_date__gte=current_date).order_by('-id')
         serialized_data = list(chits.values())
@@ -726,7 +728,7 @@ def getappliedchits(request):
     if request.method == 'POST':
         print("****")
         accno = request.POST.get('accno')
-        chits = Customerchit.objects.filter(account_number_id=accno)
+        chits = Customerchit.objects.filter(account_number_id=accno).order_by("status")
         chit_list_size = len(chits)
         chit_list = [None] * chit_list_size
         for i, x in enumerate(chits):
@@ -889,6 +891,36 @@ def getjoinedchits(request):
         print(serialized_data)  # convert queryset to list of dictionaries
         return JsonResponse(serialized_data, safe=False, status=200)
 
+@csrf_exempt
+def getchitresultinfo(request):
+    if request.method == 'POST':
+        print("@@@@")
+        accno = request.POST.get('accno')
+        chits = Customerchit.objects.filter(account_number_id=accno,status="approved")
+
+        custchitID=[]
+        for k in chits:
+            custchitID.append(k.id)
+        print("chit ids",custchitID)
+        resultobj=Result.objects.filter(cust_chitid__in=custchitID)
+        print(resultobj)
+        result_list_size = len(resultobj)
+        result_list = [None] * result_list_size
+        for i, x in enumerate(resultobj):
+            chit_dict = {
+                'id' : x.id,
+                'chit_name': x.cust_chitid.chitid.name,
+                'amount': x.won_amount,
+                'date': x.auction_id.auction_date,
+                'custchitid':x.cust_chitid_id
+            }
+            result_list[i] = chit_dict
+        print("&&&")
+        print(result_list)
+        serialized_data = result_list
+        print(serialized_data)  # convert queryset to list of dictionaries
+        return JsonResponse(serialized_data, safe=False, status=200)
+
 
 @csrf_exempt
 def getjoinedchitauctioninfo(request, custchitid):
@@ -920,6 +952,21 @@ def submitbid(request):
         bidobj.cust_chitid_id=int(custchitid)
         bidobj.amount=amount
         bidobj.save()
+        lowest_bid_amount =Auctionbidamountlatest.objects.filter(auction_id_id=int(auctionid)).aggregate(Min('amount'))['amount__min']
+
+        try:
+            # Update the existing Result object with the new lowest bid amount
+            result_obj = Result.objects.get(auction_id_id=int(auctionid))
+            result_obj.won_amount = lowest_bid_amount
+            result_obj.save()
+        except Result.DoesNotExist:
+            # Create a new Result object with the lowest bid amount if it doesn't exist yet
+            result_obj = Result.objects.create(
+                auction_id_id=int(auctionid),
+                cust_chitid_id=int(custchitid),
+                won_amount=lowest_bid_amount,
+                security=None  # Set the security field to None for now
+            )
         status_code = 200
         data = {'status': 'success'}
         return JsonResponse(data, status=status_code)
@@ -998,6 +1045,56 @@ def get_auction_remaining_seconds(request, aid):
         data = {'remaining_seconds': remaining_seconds}
         return JsonResponse(data, status=200)
 
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+@csrf_exempt
+def uploadSecurityDocumentToServer(request):
+    if request.method == 'POST':
+        rid = request.POST.get('rid')
+        doc_file = request.FILES.get('doc')
+        result_obj = Result.objects.get(id=rid)
+        if result_obj.security:
+            data = {'status': 'failure'}
+            status_code = 204
+        else:
+            result_obj.security = doc_file
+            result_obj.save()
+            data = {'status': 'success'}
+            status_code = 200
+        return JsonResponse(data, status=status_code)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+
+@csrf_exempt
+def getinstallmentamount(request,custchitid):
+    if request.method == 'POST':
+        amount=Installment.objects.get(cust_chitid_id=custchitid).amount
+        data = {'amount': amount}
+        status_code = 200
+        return JsonResponse(data, status=status_code)
+    data = {'status': 'failure'}
+    status_code = 400
+    return JsonResponse(data, status=status_code)
+
+
+
+@csrf_exempt
+def gotopayment_table(request,custchitid):
+    if request.method == 'POST':
+        transaction = request.POST.get('transaction')
+        amount = request.POST.get('amount')
+        obj=Payment()
+        obj.amount=Decimal(amount)
+        obj.cust_chitid_id=custchitid
+        obj.transactionid=transaction
+        obj.save()
+        data = {'status': 'success'}
+        status_code = 200
+        return JsonResponse(data, status=status_code)
     data = {'status': 'failure'}
     status_code = 400
     return JsonResponse(data, status=status_code)

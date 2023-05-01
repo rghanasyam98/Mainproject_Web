@@ -16,8 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -31,18 +31,19 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/myapp/static/assets/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\asus\PycharmProjects\demouser\myapp\static\assets\images" />
-      <recent name="C:\Users\asus\PycharmProjects\demouser\templates" />
-      <recent name="C:\Users\asus\PycharmProjects\demouser" />
-      <recent name="C:\Users\asus\PycharmProjects\demouser\myapp" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\asus\PycharmProjects\demouser\templates\bankadmin" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\asus\PycharmProjects\demouser\templates" />
+      <recent name="C:\Users\asus\PycharmProjects\demouser\myapp\static\build\css" />
+      <recent name="C:\Users\asus\PycharmProjects\demouser\myapp\static\assets\images" />
+      <recent name="C:\Users\asus\PycharmProjects\demouser" />
+      <recent name="C:\Users\asus\PycharmProjects\demouser\myapp" />
     </key>
   </component>
   <component name="RunManager">
@@ -124,7 +125,19 @@
       <workItem from="1680068557563" duration="2401000" />
       <workItem from="1680078485429" duration="617000" />
       <workItem from="1680094319488" duration="4962000" />
-      <workItem from="1680148165732" duration="9714000" />
+      <workItem from="1680148165732" duration="10340000" />
+      <workItem from="1680681916563" duration="1001000" />
+      <workItem from="1680758635873" duration="10265000" />
+      <workItem from="1680843171986" duration="18784000" />
+      <workItem from="1681018184022" duration="23826000" />
+      <workItem from="1681099273979" duration="12014000" />
+      <workItem from="1681116838315" duration="1857000" />
+      <workItem from="1681185897442" duration="7272000" />
+      <workItem from="1681286935765" duration="2070000" />
+      <workItem from="1681704917554" duration="2031000" />
+      <workItem from="1682489194484" duration="4925000" />
+      <workItem from="1682827010608" duration="12371000" />
+      <workItem from="1682916255778" duration="5546000" />
     </task>
     <servers />
   </component>
@@ -132,10 +145,14 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="465" y="232" key="com.intellij.ide.util.TipDialog" timestamp="1680148165931">
+    <state x="499" y="155" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1680791507080">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
-    <state x="465" y="232" key="com.intellij.ide.util.TipDialog/0.0.1536.816@0.0.1536.816" timestamp="1680148165931" />
+    <state x="499" y="155" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.816@0.0.1536.816" timestamp="1680791507080" />
+    <state x="465" y="232" key="com.intellij.ide.util.TipDialog" timestamp="1682916256917">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="465" y="232" key="com.intellij.ide.util.TipDialog/0.0.1536.816@0.0.1536.816" timestamp="1682916256917" />
     <state x="431" y="137" width="672" height="678" key="search.everywhere.popup" timestamp="1680161193321">
       <screen x="0" y="0" width="1536" height="816" />
     </state>

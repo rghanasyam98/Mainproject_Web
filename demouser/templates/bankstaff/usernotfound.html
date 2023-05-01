@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ {% if message %}
+  <script>
+    alert("{{ message }}");
+     window.location.href = "/staff/addnewmembertochit/{{ chitId }}";
+  </script>
+{% endif %}
+</body>
+</html>

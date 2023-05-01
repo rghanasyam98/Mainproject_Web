@@ -1,5 +1,5 @@
 from calendar import monthrange
-
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 
 # Create your views here.
@@ -36,12 +36,14 @@ def index(request):
     if request.user.is_authenticated:
         if request.user.email=="bankadmin@gmail.com":
             return redirect('admindash')
+        elif request.user.email == "bankstaff@gmail.com":
+            return redirect('staffdash')
     #     if request.user.user_type == 'admin':
 
 
     return render(request, 'index.html')
 
-
+@csrf_exempt
 def login_user(request):
     print("hai")
 
@@ -69,9 +71,15 @@ def login_user(request):
               login(request, user)
               return redirect('admindash')
 
+            elif usertype == "staff":
+                # return render(request, 'labadmin/admindash.html')
+              login(request, user)
+              # return redirect('staffdash')
+              return render(request, 'staffdashboard.html')
+
 
             else:
-                return HttpResponse('Staff')
+                return HttpResponse('Unknown user type')
         else:
             url = '/'
             resp_body = '<script>alert("Wrong password...");\
@@ -105,6 +113,11 @@ def logoutadmin(request):
 @login_required
 def admindash(request):
     return render(request, 'adminhome.html')
+
+
+@login_required
+def staffdash(request):
+    return render(request, 'staffdashboard.html')
 
 @login_required
 def loan_management(request):

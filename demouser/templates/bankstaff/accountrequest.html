@@ -1,0 +1,508 @@
+{% include 'staffheader.html' %}
+{% load static %}
+
+
+<style>
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.card {
+  max-width: 60%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  {#margin: 10% auto;#}
+     margin: 1% auto;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.card h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.card button {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #3e8e41;
+}
+
+    #popup-id {
+  display: none;
+}
+
+    .popup-columns {
+    display: flex;
+    justify-content: space-between;
+  }
+  .popup-columns > div {
+    flex-basis: 45%;
+  }
+  .popup-columns > div:first-child {
+    float: left;
+  }
+  .popup-columns > div:last-child {
+    float: right;
+  }
+
+</style>
+
+{#<head>#}
+{#     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">#}
+{#</head>#}
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Account opening request management <small></small></h3>
+              </div>
+
+
+{##}
+{#<div id="popup" class="popup">#}
+{#  <div class="card">#}
+{#    <h2>Details</h2>#}
+{#    <p>First Name: <span id="popup-firstname"></span></p>#}
+{#    <p>Last Name: <span id="popup-lastname"></span></p>#}
+{#    <p>Email: <span id="popup-email"></span></p>#}
+{#    <button onclick="closePopup()">Close</button>#}
+{#  </div>#}
+
+
+{#</div>#}
+
+{#{% if popupstatus %}#}
+{#                <div id="popup" class="popup" style="display:none;">#}
+{#  <div class="card">#}
+{#    <h2>Details</h2>#}
+{#     <p> <span id="popup-image"></span></p>#}
+{#     <p><span id="popup-id"></span></p>#}
+{#    <p>First Name: <span id="popup-firstname"></span></p>#}
+{#    <p>Last Name: <span id="popup-lastname"></span></p>#}
+{#    <p>Email: <span id="popup-email"></span></p>#}
+{#    <p>Phone: <span id="popup-phone"></span></p>#}
+{#    <p>Gender: <span id="popup-gender"></span></p>#}
+{#    <p>Date of Birth: <span id="popup-dob"></span></p>#}
+{#    <p>Address: <span id="popup-address"></span></p>#}
+{#    <p>Marital Status: <span id="popup-maritalstatus"></span></p>#}
+{#    <p>Name of Father/Mother/Spouse <span id="popup-familymembers"></span></p>#}
+{#    <p>Dependants: <span id="popup-dependants"></span></p>#}
+{#    <p>Nationality: <span id="popup-nationality"></span></p>#}
+{#    <p>Occupation: <span id="popup-occupation"></span></p>#}
+{#    <p>Income: <span id="popup-income"></span></p>#}
+{#    <p>Qualification: <span id="popup-qualification"></span></p>#}
+{#    <p>Account Type: <span id="popup-accounttype"></span></p>#}
+{#    <p>Property: <span id="popup-pan"></span></p>#}
+{#    <p>Aadhar Number: <span id="popup-aadhar"></span></p>#}
+{#    <p>Nominee Name: <span id="popup-nomineename"></span></p>#}
+{#    <p>Nominee Address: <span id="popup-nomineeaddress"></span></p>#}
+{#    <p>Relation: <span id="popup-relation"></span></p>#}
+{#      <button onclick="acceptDetails()">Accept</button>#}
+{#      <button style="background-color: red;" onclick="rejectDetails()">Reject</button>#}
+{#    <button style="background-color: blue;" onclick="closePopup()">Close</button>#}
+{##}
+{#  </div>#}
+{#</div>#}
+
+                <div id="popup" class="popup" style="display:none;">
+  <div class="card">
+    <p><span id="popup-image"></span></p>
+    <div class="popup-columns">
+      <div>
+        <p><span id="popup-id"></span></p>
+        <p>First Name: <span id="popup-firstname"></span></p>
+        <p>Last Name: <span id="popup-lastname"></span></p>
+        <p>Email: <span id="popup-email"></span></p>
+        <p>Phone: <span id="popup-phone"></span></p>
+        <p>Gender: <span id="popup-gender"></span></p>
+        <p>Date of Birth: <span id="popup-dob"></span></p>
+        <p>Address: <span id="popup-address"></span></p>
+        <p>Marital Status: <span id="popup-maritalstatus"></span></p>
+        <p>Name of Father/Mother/Spouse: <span id="popup-familymembers"></span></p>
+        <p>Dependants: <span id="popup-dependants"></span></p>
+      </div>
+      <div>
+        <p>Nationality: <span id="popup-nationality"></span></p>
+        <p>Occupation: <span id="popup-occupation"></span></p>
+        <p>Income: <span id="popup-income"></span></p>
+        <p>Qualification: <span id="popup-qualification"></span></p>
+        <p>Account Type: <span id="popup-accounttype"></span></p>
+        <p>Property: <span id="popup-pan"></span></p>
+        <p>Aadhar Number: <span id="popup-aadhar"></span></p>
+        <p>Nominee Name: <span id="popup-nomineename"></span></p>
+        <p>Nominee Address: <span id="popup-nomineeaddress"></span></p>
+        <p>Relation: <span id="popup-relation"></span></p>
+      </div>
+    </div>
+    <button onclick="acceptDetails()">Accept</button>
+    <button style="background-color: red;" onclick="rejectDetails()">Reject</button>
+    <button style="background-color: blue;" onclick="closePopup()">Close</button>
+  </div>
+</div>
+
+{#{% endif %}#}
+
+
+
+
+
+              <div class="title_right">
+
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+
+                  <div class="input-group">
+
+
+
+
+
+
+{#                    <input type="text" class="form-control" placeholder="Search for...">#}
+{#                    <span class="input-group-btn">#}
+{#                      <button class="btn btn-default" type="button">Go!</button>#}
+{#                    </span>#}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <div class="clearfix">
+</div>
+{#        <a href="{% url 'addchit' %}" class="btn btn-sm btn-warning" align="right" >Add New</a>#}
+            <div class="row">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Request Details  <small></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+{#                    <p class="text-muted font-13 m-b-30">#}
+{#                      DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>#}
+{#                    </p>#}
+
+
+
+
+
+
+
+
+                    <table id="datatable" class="table table-striped jambo_table bulk_action">
+                      <thead>
+                         <tr>
+                                    <th>Sl No</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    <th>Gender</th>
+                                    <th>Date of Birth</th>
+                                    <th>Address</th>
+{#                                    <th>Marital Status</th>#}
+{#                                    <th>Full Name of Mother/Father/Spouse</th>#}
+{#                                    <th>Number of Dependents</th>#}
+{#                                    <th>Nationality</th>#}
+{#                                    <th>Self Employment status</th>#}
+{#                                    <th>Income</th>#}
+{#                                    <th>Qualification</th>#}
+{#                                    <th>Type</th>#}
+{#                                    <th>Property</th>#}
+{#                                    <th>Aadhar</th>#}
+{#                                    <th>Nominee Name</th>#}
+{#                                    <th>Nominee Address</th>#}
+{#                                    <th>Relation with Nominee</th>#}
+{#                                    <th>Image</th>#}
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                      </thead>
+
+
+                      <tbody>
+                       {% for x in accountrequest %}
+                        <tr>
+                            <td ><b><i>{{ forloop.counter }}</i></b></td>
+                          <td style="color: steelblue"><b><i>{{ x.fname }}</i></b></td>
+                          <td style="color: steelblue"><b><i> {{ x.lname }} </i></b></td>
+                             <td style="color: steelblue"><b><i>{{ x.uid.email }} </i></b></td>
+                          <td style="color: steelblue"><b><i> {{ x.uid.phone }} </i></b></td>
+                          <td style="color: steelblue"><b><i>{{ x.gender }} </i></b></td>
+                          <td style="color: steelblue"><b><i>{{ x.dob }} </i></b></td>
+                             <td style="color: steelblue"><b><i>{{ x.address }}</i></b> </td>
+{#                             <td>{{ x.marital_status }} </td>#}
+{#                             <td>{{ x.namefms }} </td>#}
+{#                             <td>{{ x.dependants }} </td>#}
+{#                             <td>{{ x.nationality }} </td>#}
+{#                            <td>{{ x.occupation }} </td>#}
+{#                             <td>{{ x.income }} </td>#}
+{#                             <td>{{ x.qualification }} </td>#}
+{#                             <td>{{ x.type }} </td>#}
+{#                             <td>{{ x.pan }} </td>#}
+{#                             <td>{{ x.aadhar }} </td>#}
+{#                            <td>{{ x.nomname }} </td>#}
+{#                            <td>{{ x.nomaddress }} </td>#}
+{#                             <td>{{ x.relation }} </td>#}
+{#                             <td>#}
+{#                                 <div class="image view view-first">#}
+{#                              {{ form.as_p }}#}
+{#                            <img height="200px" width="200px" src="/media/{{ x.image }}" alt="image" />#}
+{#                                 </div>#}
+{#                             </td>#}
+                            <td style="color: steelblue"><b><i>{{ x.status }}</i></b> </td>
+
+{#<td>#}
+{#  <button onclick="showDetails('{{ x.fname }}', '{{ x.lname }}', '{{ x.uid.email }}','{{ x.uid.phone }}', '{{ x.gender }}', '{{ x.dob }}', '{{ x.address }}', '{{ x.marital_status }}', '{{ x.namefms }}', '{{ x.dependants }}', '{{ x.nationality }}', '{{ x.occupation }}', '{{ x.income }}', '{{ x.qualification }}', '{{ x.type }}', '{{ x.pan }}', '{{ x.aadhar }}', '{{ x.nomname }}', '{{ x.nomaddress }}', '{{ x.relation }}')">Details</button>#}
+{#</td>#}
+<td align="center">
+  <button class="btn btn-info btn-xs"  onclick="showDetails('{{ x.id }}','{{ x.fname }}', '{{ x.lname }}', '{{ x.uid.email }}','{{ x.uid.phone }}', '{{ x.gender }}', '{{ x.dob }}', '{{ x.address }}', '{{ x.marital_status }}', '{{ x.namefms }}', '{{ x.dependants }}', '{{ x.nationality }}', '{{ x.occupation }}', '{{ x.income }}', '{{ x.qualification }}', '{{ x.type }}', '{{ x.pan }}', '{{ x.aadhar }}', '{{ x.nomname }}', '{{ x.nomaddress }}', '{{ x.relation }}','{{ x.image.url }}','true')">
+    <i class="fa fa-info-circle"></i> View More
+  </button>
+</td>
+
+
+
+{#                          <td>$320,800</td>#}
+                        </tr>
+
+                        {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+                <script src="js/main.js"></script>
+                <script>
+$(document).ready(function() {
+    $('#datatable').DataTable();
+} );
+
+
+
+function showDetails(id,firstName, lastName, email, phone  ,gender,dob,  address, maritalStatus, familyMembers, dependants, nationality, occupation, income, qualification, accountType, pan, aadhar, nomineeName, nomineeAddress, relation,image,popupstatus) {
+    var itemId = id;
+  document.getElementById("popup-id").innerHTML = id;
+  document.getElementById("popup-firstname").innerHTML = firstName;
+  document.getElementById("popup-lastname").innerHTML = lastName;
+  document.getElementById("popup-email").innerHTML = email;
+  document.getElementById("popup-phone").innerHTML = phone;
+  document.getElementById("popup-gender").innerHTML = gender;
+  document.getElementById("popup-dob").innerHTML = dob;
+  document.getElementById("popup-address").innerHTML = address;
+  document.getElementById("popup-maritalstatus").innerHTML = maritalStatus;
+  document.getElementById("popup-familymembers").innerHTML = familyMembers;
+  document.getElementById("popup-dependants").innerHTML = dependants;
+  document.getElementById("popup-nationality").innerHTML = nationality;
+  document.getElementById("popup-occupation").innerHTML = occupation;
+  document.getElementById("popup-income").innerHTML = income;
+  document.getElementById("popup-qualification").innerHTML = qualification;
+  document.getElementById("popup-accounttype").innerHTML = accountType;
+  document.getElementById("popup-pan").innerHTML = pan;
+  document.getElementById("popup-aadhar").innerHTML = aadhar;
+  document.getElementById("popup-nomineename").innerHTML = nomineeName;
+  document.getElementById("popup-nomineeaddress").innerHTML = nomineeAddress;
+  document.getElementById("popup-relation").innerHTML = relation;
+
+  {# var img = document.createElement("img");#}
+  {#img.src = image;#}
+  {#img.width = 150;#}
+  {#img.height = 150;#}
+  {#document.getElementById("popup").appendChild(img);#}
+
+    var oldImg = document.getElementById("popup-image").querySelector("img");
+  if (oldImg) {
+    document.getElementById("popup-image").removeChild(oldImg);
+  }
+    var img = document.createElement("img");
+  img.src = image;
+    img.width = 150;
+  img.height = 150;
+  document.getElementById("popup-image").appendChild(img);
+
+
+  {#document.getElementById("popup").style.display = "block";#}
+    if (popupstatus) {
+        document.getElementById("popup").style.display = "block";
+    }
+}
+
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+
+      {#document.getElementById("popup-button").addEventListener("click", showPopup);#}
+
+
+
+{#if (!localStorage.getItem('popupDisplayed')) {#}
+{#  // Show the popup#}
+{#  showPopup();#}
+{#  // Set the flag indicating that the popup has been displayed#}
+{#  localStorage.setItem('popupDisplayed', 'true');#}
+{#}#}
+
+{#function acceptDetails() {#}
+{#  const xhr = new XMLHttpRequest();#}
+{#  xhr.open("POST", "{% url 'accept-details' pk=itemId %}", true);#}
+{#  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");#}
+{#  xhr.onreadystatechange = function () {#}
+{#    if (xhr.readyState === 4 && xhr.status === 200) {#}
+{#      alert("Details accepted successfully!");#}
+{#      closePopup();#}
+{#    } else if (xhr.readyState === 4 && xhr.status !== 200) {#}
+{#      alert("Failed to accept details!");#}
+{#    }#}
+{#  };#}
+{#  // Add the itemId value to the POST data#}
+{#  xhr.send(JSON.stringify({ "id": itemId }));#}
+{#}#}
+
+// Define function to reject details
+{#function rejectDetails() {#}
+{#  const xhr = new XMLHttpRequest();#}
+{#  xhr.open("POST", "{% url 'reject-details' pk=itemId %}", true);#}
+{#  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");#}
+{#  xhr.onreadystatechange = function () {#}
+{#    if (xhr.readyState === 4 && xhr.status === 200) {#}
+{#      alert("Details rejected successfully!");#}
+{#      closePopup();#}
+{#    } else if (xhr.readyState === 4 && xhr.status !== 200) {#}
+{#      alert("Failed to reject details!");#}
+{#    }#}
+{#  };#}
+{#  // Add the itemId value to the POST data#}
+{#  xhr.send(JSON.stringify({ "id": itemId }));#}
+{#}#}
+
+async function acceptDetails() {
+  try {
+    // Get the ID of the selected row
+    {#const itemId = document.getElementById("popup-id").innerHTML; #}
+          const itemId = document.getElementById("popup-id") .textContent.trim();
+
+    // Construct the URL with the ID
+   const url = "accept_accountrequest/" + itemId+"/";
+
+    // Make a POST request to the backend with the ID as the payload
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ id: itemId }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+      alert("Internal error");
+    }
+   else{location.reload();alert("Approved"); closePopup();}
+    // Parse the response data as JSON
+    const data = await response.json();
+
+    // Handle the response data here
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+
+
+async function rejectDetails() {
+  try {
+    // Get the ID of the selected row
+    {#const itemId = document.getElementById("popup-id").innerHTML; #}
+          const itemId = document.getElementById("popup-id") .textContent.trim();
+
+    // Construct the URL with the ID
+   const url = "reject_accountrequest/" + itemId+"/";
+
+    // Make a POST request to the backend with the ID as the payload
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ id: itemId }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+      alert("Internal error");
+    }
+   else{location.reload();alert("Rejected"); closePopup();}
+    // Parse the response data as JSON
+    const data = await response.json();
+
+    // Handle the response data here
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+
+</script>
+
+
+
+
+
+
+
+{% include 'stafffooter.html' %}

@@ -30,6 +30,10 @@ urlpatterns = [
     path('getjoinedchitauctioninfo/<int:custchitid>/', views.getjoinedchitauctioninfo, name='getjoinedchitauctioninfo'),
     path('submitbid/', views.submitbid, name='submitbid'),
     path('get_auction_remaining_seconds/<int:aid>/', views.get_auction_remaining_seconds, name='get_auction_remaining_seconds'),
+    path('getchitresultinfo/', views.getchitresultinfo, name='getchitresultinfo'),
+    path('uploadSecurityDocumentToServer/', views.uploadSecurityDocumentToServer, name='uploadSecurityDocumentToServer'),
+    path('getinstallmentamount/<int:custchitid>/', views.getinstallmentamount, name='getinstallmentamount'),
+    path('gotopayment_table/<int:custchitid>/', views.gotopayment_table, name='gotopayment_table'),
 
     # ... other URL patterns ...
 ]

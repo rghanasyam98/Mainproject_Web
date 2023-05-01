@@ -1,0 +1,431 @@
+{% include 'staffheader.html' %}
+{% load static %}
+
+<div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Loan request management <small></small></h3>
+              </div>
+
+
+
+ <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Loan Type <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control"  name="loan" id="loan" >
+                          {% for i in loanobj %}
+                              <option value="{{ i.id }}">{{ i.lname }}</option>
+{#                              <option value="Ad">Advertisement</option>#}
+                              {% endfor %}
+
+                          </select>
+                        </div>
+                      </div>
+
+              <div class="title_right">
+
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+
+                  <div class="input-group">
+
+
+
+
+{#                    <input type="text" class="form-control" placeholder="Search for...">#}
+{#                    <span class="input-group-btn">#}
+{#                      <button class="btn btn-default" type="button">Go!</button>#}
+{#                    </span>#}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="clearfix">
+</div>
+
+{#        <a href="{% url 'addauction' %}" class="btn btn-sm btn-warning" align="right" >Add Auction</a>#}
+            <div class="row">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Request details  <small></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+
+
+
+ <div class="" role="tabpanel" data-example-id="togglable-tabs">
+
+
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Pending</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Approved</a>
+                        </li>
+
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+{#                          <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher#}
+{#                            synth. Cosby sweater eu banh mi, qui irure terr.</p>#}
+                             <table id="datatable" class="table table-striped jambo_table bulk_action">
+                      <thead>
+                         <tr>
+                                    <th>Sl No</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Account Number</th>
+                                    <th>Loan</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+
+                                    <th>Actions</th>
+                                </tr>
+                      </thead>
+
+
+                      <tbody id="tableData">
+                       {% for x in loanrequest %}
+                        <tr>
+                         <td style="color: steelblue"><b><i>{{ forloop.counter }}</i></b></td>
+                          <td style="color: steelblue"><b><i>{{ x.account_number.accrid.fname }} </i></b></td>
+                          <td style="color: steelblue"><b><i> {{ x.account_number.accrid.lname }} </i></b></td>
+
+                          <td style="color: steelblue"><b><i>{{ x.account_number_id }}</i></b> </td>
+                              <td style="color: steelblue"><b><i>{{ x.loanid.lname }}</i></b> </td>
+                          <td style="color: steelblue"><b><i>{{ x.loan_amount }} </i></b></td>
+                          <td style="color: steelblue"><b><i>{{ x.created_at.date }} </i></b></td>
+                             <td style="color: steelblue"><b><i> {{ x.status }} </i></b></td>
+{#                             <td>{{ x.marital_status }} </td>#}
+{#                             <td>{{ x.namefms }} </td>#}
+{#                             <td>{{ x.dependants }} </td>#}
+{#                             <td>{{ x.nationality }} </td>#}
+{#                            <td>{{ x.occupation }} </td>#}
+{#                             <td>{{ x.income }} </td>#}
+{#                             <td>{{ x.qualification }} </td>#}
+{#                             <td>{{ x.type }} </td>#}
+{#                             <td>{{ x.pan }} </td>#}
+{#                             <td>{{ x.aadhar }} </td>#}
+{#                            <td>{{ x.nomname }} </td>#}
+{#                            <td>{{ x.nomaddress }} </td>#}
+{#                             <td>{{ x.relation }} </td>#}
+{#                             <td>#}
+{#                                 <div class="image view view-first">#}
+{#                              {{ form.as_p }}#}
+{#                            <img height="200px" width="200px" src="/media/{{ x.image }}" alt="image" />#}
+{#                                 </div>#}
+{#                             </td>#}
+{#                            <td></td>#}
+
+
+<td align="center">
+  <a class="btn btn-info btn-xs"  href="{% url 'viewmoredetailsofloanrequest' x.id %}">
+    <i class="fa fa-info-circle"></i> View More
+  </a>
+</td>
+
+
+
+                        </tr>
+
+                        {% endfor %}
+
+                      </tbody>
+                    </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+{#                          <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo#}
+{#                            booth letterpress, commodo enim craft beer mlkshk aliquip</p>#}
+                              <table id="datatable2" class="table table-striped jambo_table bulk_action">
+                      <thead>
+                         <tr>
+                                    <th>Sl No</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Account Number</th>
+                                    <th>Loan</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+
+                                    <th>Actions</th>
+                                </tr>
+                      </thead>
+
+
+                      <tbody id="tableData">
+                       {% for x in approvedloanrequests %}
+                        <tr>
+                         <td>{{ forloop.counter }}</td>
+                          <td style="color: steelblue"><b><i>{{ x.account_number.accrid.fname }} </i></b></td>
+                          <td style="color: steelblue"><b><i> {{ x.account_number.accrid.lname }} </i></b></td>
+
+                          <td style="color: steelblue"><b><i>{{ x.account_number_id }} </i></b></td>
+                              <td style="color: steelblue"><b><i>{{ x.loanid.lname }} </i></b></td>
+                          <td style="color: steelblue"><b><i>{{ x.loan_amount }} </i></b></td>
+                          <td style="color: steelblue"><b><i>{{ x.created_at.date }} </i></b></td>
+                             <td style="color: steelblue"><b><i> {{ x.status }}</i></b></td>
+{#                             <td>{{ x.marital_status }} </td>#}
+{#                             <td>{{ x.namefms }} </td>#}
+{#                             <td>{{ x.dependants }} </td>#}
+{#                             <td>{{ x.nationality }} </td>#}
+{#                            <td>{{ x.occupation }} </td>#}
+{#                             <td>{{ x.income }} </td>#}
+{#                             <td>{{ x.qualification }} </td>#}
+{#                             <td>{{ x.type }} </td>#}
+{#                             <td>{{ x.pan }} </td>#}
+{#                             <td>{{ x.aadhar }} </td>#}
+{#                            <td>{{ x.nomname }} </td>#}
+{#                            <td>{{ x.nomaddress }} </td>#}
+{#                             <td>{{ x.relation }} </td>#}
+{#                             <td>#}
+{#                                 <div class="image view view-first">#}
+{#                              {{ form.as_p }}#}
+{#                            <img height="200px" width="200px" src="/media/{{ x.image }}" alt="image" />#}
+{#                                 </div>#}
+{#                             </td>#}
+{#                            <td></td>#}
+
+
+<td align="center">
+  <a class="btn btn-info btn-xs"  href="{% url 'viewmoredetailsofloanrequest2' x.id %}">
+    <i class="fa fa-info-circle"></i> View More
+  </a>
+</td>
+
+
+
+                        </tr>
+
+                        {% endfor %}
+
+                      </tbody>
+                    </table>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+                <script src="js/main.js"></script>
+                <script>
+$(document).ready(function() {
+    $('#datatable').DataTable();
+} );
+
+$(document).ready(function() {
+    $('#datatable2').DataTable();
+} );
+
+
+
+{##}
+{#$(document).ready(function() {#}
+{#    $("#loan").change(function() {#}
+{##}
+{#        var id = $('#loan option:selected').val();#}
+{##}
+{#        var request_url = "{% url 'listloan' %}";#}
+{##}
+{#        $.ajax({#}
+{#            type: "GET",#}
+{#            dataType: 'json',#}
+{#            url: request_url,#}
+{#            data: {#}
+{#                cat_id: id#}
+{#            },#}
+{#            success: function(data) {#}
+{#                $('#tableData').empty();#}
+{##}
+{#                // Loop through the data and append each row to the table#}
+{#                $.each(data.data, function(index, item) {#}
+{#                    var row = '<tr>' +#}
+{#                        '<td>' + (index + 1) + '</td>' +#}
+{#                        '<td>' + item.fname + '</td>' +#}
+{#                        '<td>' + item.lname + '</td>' +#}
+{#                        '<td>' + item.account + '</td>' +#}
+{#                        '<td>' + item.loan + '</td>' +#}
+{#                        '<td>' + item.amount + '</td>' +#}
+{#                        '<td>' + item.date + '</td>' +#}
+{#                        '<td>' + item.status + '</td>' +#}
+{#                        '<td align="center">' +#}
+{#                            <a  href="/viewmoredetailsofloanrequest/'+item.id +'">View More</a> '#}
+                        {#'<a class="btn btn-info btn-xs" href="{% url "viewmoredetailsofloanrequest" item.id %}">' +#}
+                        {#'<i class="fa fa-info-circle"></i> View More' +#}
+                        {#'</a>' +#}
+{#                        '</td>' +#}
+{#                        '</tr>';#}
+{##}
+{#                    $('#tableData').append(row);#}
+{#                });#}
+{#            },#}
+{#            error: function(e) {#}
+{#                console.log('Error: ' + e);#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#});#}
+
+$(document).ready(function() {
+    $("#loan").change(function() {
+
+        var id = $('#loan option:selected').val();
+
+        var request_url = "{% url 'listloan' %}";
+
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: request_url,
+            data: {
+                cat_id: id
+            },
+            success: function(data) {
+                $('#tableData').empty();
+
+                // Loop through the data and append each row to the table
+                $.each(data.data, function(index, item) {
+                    var row = '<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + item.fname + '</td>' +
+                        '<td>' + item.lname + '</td>' +
+                        '<td>' + item.account + '</td>' +
+                        '<td>' + item.loan + '</td>' +
+                        '<td>' + item.amount + '</td>' +
+                        '<td>' + item.date + '</td>' +
+                        '<td>' + item.status + '</td>' +
+                        '<td align="center">' +
+                            '<a class="btn btn-info btn-xs" href="/staff/viewmoredetailsofloanrequest/'+ item.id + '/">View More</a>' +
+                        '</td>' +
+                        '</tr>';
+
+                    $('#tableData').append(row);
+                });
+            },
+            error: function(e) {
+                console.log('Error: ' + e);
+            }
+        });
+    });
+});
+
+
+
+
+{##}
+{##}
+{#$(document).ready(function() {#}
+{#        $("#loan").change(function(){#}
+{##}
+{#            id = $('#loan option:selected').val();#}
+{##}
+{#            let request_url = "{% url 'listloan' %}";#}
+{##}
+{#           $.ajax(#}
+{#            {#}
+{#                type:"GET",#}
+{#                datatype: 'json',#}
+{#                url: request_url,#}
+{#                data:{#}
+{#                         cat_id: id#}
+{#                },#}
+{#                success: function( data )#}
+{#                {#}
+{#                    $('#tableData').empty();#}
+{##}
+{#    // Loop through the data and append each row to the table#}
+{#    $.each(data, function(index, item) {#}
+{#        var row = '<tr>' +#}
+{#            '<td>' + (index + 1) + '</td>' +#}
+{#            '<td>' + item.fname + '</td>' +#}
+{#            '<td>' + item.lname + '</td>' +#}
+{#            '<td>' + item.account + '</td>' +#}
+{#            '<td>' + item.loan + '</td>' +#}
+{#            '<td>' + item.amount + '</td>' +#}
+{#            '<td>' + item.date + '</td>' +#}
+{#            '<td>' + item.status + '</td>' +#}
+{#            '<td align="center">' +#}
+            {#'<a class="btn btn-info btn-xs"  href="{% url 'viewmoredetailsofloanrequest' item.id %}">' +#}
+            {#'<i class="fa fa-info-circle"></i> View More' +#}
+            {#'</a>' +#}
+{#            '</td>' +#}
+{#            '</tr>';#}
+{##}
+{#        $('#tableData').append(row);#}
+{#    });#}
+{##}
+{#                },#}
+{##}
+{#      errors: function (e) {#}
+{##}
+{#              }#}
+{#     })#}
+{##}
+{#        })#}
+{#    })#}
+
+{#  function tableFromResponse(responseData) {#}
+{##}
+{#        var mainObj = JSON.parse(responseData.testresult);#}
+{##}
+{#        var k = '<tbody>'#}
+{##}
+{#        for(i = 0;i < mainObj.length; i++){#}
+{##}
+{#            k+= '<tr>';#}
+{#            k+= '<td align="center">'+ (i+1) +'</td>'#}
+{#            k+= '<td  align="center">' + mainObj[i]["fields"]["fname"] + '</td>';#}
+{#            k+= '<td  align="center">' + mainObj[i]["fields"]["des"] + '</td>';#}
+{#            k+= '<td  align="center">' + mainObj[i]["fields"]["price"] + '</td>';#}
+{#            k+= '<td  align="center">' + mainObj[i]["fields"]["status"] + '</td>';#}
+{#            k+= '<td  align="center">' + mainObj[i]["fields"]["hstatus"] + '</td>';#}
+{#            k+= '<td  align="center"> <a href="/updatetest/'+mainObj[i]["pk"]+'">Edit </a><a  onclick="return confirm(\'Are you sure?\')"  href="/deletetest/'+mainObj[i]["pk"]+'">Delete</a> ';#}
+{#            k+= '</tr>';#}
+{#        }#}
+{#        k+='</tbody>';#}
+{#        document.getElementById('tableData').innerHTML = k;#}
+{#}#}
+
+</script>
+
+            {% include 'stafffooter.html' %}

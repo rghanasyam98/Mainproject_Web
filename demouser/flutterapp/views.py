@@ -322,14 +322,14 @@ def accountlink(request):
             print(random_number)
             mob = '+91' + str(phone)
             smsmsg ="Your OTP for verification is : "+ str(random_number)
-            account_sid = 'AC8bb9a55c8e2e83a3aec7a1af351d600b'
-            auth_token = '6543e661182f0c1f5fccf34e70449896'
+            account_sid = 'AC8bb9a55c8e2e83a3'
+            auth_token = '6543e661182f0c1f5fc'
             client = Client(account_sid, auth_token)
             try:
                 message = client.messages.create(
 
                     body=smsmsg,
-                    from_='+16829002201',
+                    from_='+168',
                     to=mob
 
                 )

@@ -121,19 +121,19 @@ def reject_loanrequest(request,reqid):
     mob = '+91' +str(phone)
     # smsmsg ="Your request for "+str(obj.loanid.lname)+"is rejected. Contact bank for more details..."
     smsmsg = "Your request for loan is rejected.."
-    account_sid = 'AC8bb9a55c8e2e83a3aec7a1af351d600b'
-    auth_token = '6543e661182f0c1f5fccf34e70449896'
+    account_sid = 'AC8bb9a55c8e2e83a3aec'
+    auth_token = '6543e661182f0c1f5fccf34e7'
     client = Client(account_sid, auth_token)
     mob = '+91' + str(phone)
     smsmsg = "Your OTP for verification is : "
-    account_sid = 'AC8bb9a55c8e2e83a3aec7a1af351d600b'
-    auth_token = '5974a20ad0f76d34c634ed0bdd3561b0'
+    account_sid = 'AC8bb9a55c8e2e83a3aec'
+    auth_token = '5974a20ad0f76d34c63'
     client = Client(account_sid, auth_token)
     try:
         message = client.messages.create(
 
             body=smsmsg,
-            from_='+16829002201',
+            from_='+168',
             to=mob
 
         )
